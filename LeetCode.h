@@ -13,6 +13,7 @@ int longestStrChain(std::vector<std::string>& words);
 int maxSumTwoNoOverlap(std::vector<int>& A, int L, int M);
 int missingElement(std::vector<int>& nums, int k);
 bool validateStackSequences(std::vector<int>& pushed, std::vector<int>& popped);
+int subarraySum(std::vector<int>& nums, int k);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);

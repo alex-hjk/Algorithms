@@ -2,13 +2,38 @@
 #include <string>
 #include <unordered_map>
 #include <queue>
-#include <numeric>
+#include <stack>
 
 using namespace std;
 
+// 560M Subarray Sum Equals K
+int subarraySum(vector<int>& nums, int k) {
+    int cumulSum{0}, totalCount{0};
+    unordered_map<int,int> sumCounts;
+    sumCounts[0]=1;
+
+    for(int& num:nums) {
+        cumulSum+=num;
+        if(sumCounts.find(cumulSum-k)!=sumCounts.end()) totalCount+=sumCounts[cumulSum-k];
+        ++sumCounts[cumulSum];
+    }
+
+    return totalCount;
+}
+
 // 946M Validate Stack Sequences
 bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
-    return true;
+    vector<int> numStack;
+    numStack.reserve(pushed.size());
+    int popPtr{0};
+    for(int& num:pushed) {
+        numStack.push_back(num);
+        while(!numStack.empty()&&popped[popPtr]==numStack.back()) {
+            numStack.pop_back();
+            ++popPtr;
+        }
+    }
+    return numStack.empty();
 }
 
 // 1060M Missing Element in Sorted Array
