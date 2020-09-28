@@ -1,10 +1,257 @@
-#include <vector>
+#include <iostream>
+#include <queue>
+#include <sstream>
+#include <stack>
 #include <string>
 #include <unordered_map>
-#include <queue>
-#include <stack>
+#include <unordered_set>
+#include <vector>
 
 using namespace std;
+
+// 3M Longest Substring without Repeating Characters
+int lengthOfLongestSubstring(string s) {
+    unordered_map<char,int> charIndex;
+    int size=s.size(), startIdx{0}, maxLen{0}, currLen{0};
+
+    for(int i{0}; i<size; ++i) {
+        if(charIndex.find(s[i])==charIndex.end()) ++currLen;
+        else if(charIndex[s[i]]<startIdx) ++currLen;
+        else {
+            maxLen=max(maxLen,currLen);
+            startIdx=charIndex[s[i]]+1;
+            currLen=i-startIdx+1;
+        }
+        charIndex[s[i]]=i;
+    }
+
+    maxLen=max(maxLen,currLen);
+
+    return maxLen;
+}
+
+// 15M 3Sum
+vector<vector<int>> threeSum(vector<int>& nums) {
+    vector<vector<int>> result;
+    sort(nums.begin(),nums.end());
+    int size=nums.size(), low, high, sum;
+    for(int i{0}; i<size; ++i) {
+        if(nums[i]>0) break;
+        low=i+1; 
+        high=size-1;
+        sum=0;
+        while(low<high) {
+            sum=nums[i]+nums[low]+nums[high];
+            if(sum>0) --high;
+            else if(sum<0) ++low;
+            else {
+                result.push_back({nums[i],nums[low],nums[high]});
+                ++low;
+                --high;
+                while(low<high&&nums[low]==nums[low-1]) ++low;
+            }
+        }
+        while(i<size-1&&nums[i]==nums[i+1]) ++i;
+    }
+    return result;
+}
+
+// 5M Longest Palindromic Substring
+string longestPalindrome(string s) {
+    int size=s.size(), maxLen{1}, startIdx{0};
+    vector<bool> curr(size,false), prev(size,false);
+
+    for(int i{size-2}; i>=0; --i) {
+
+        for(int j{i+1}; j<size; ++j) {
+            if(s[i]==s[j]) {
+                if(i+1<j-1) curr[j]=prev[j-1];
+                else curr[j]=true;
+                if(curr[j]&&j-i+1>maxLen) {
+                    maxLen=j-i+1;
+                    startIdx=i;
+                }
+            } else curr[j]=false;
+        }
+
+        prev=curr;
+    }
+
+    return s.substr(startIdx,maxLen);
+}
+
+// 200M Number of Islands
+int numIslands(vector<vector<char>>& grid) {
+    int row=grid.size(), col=grid[0].size(), currRow, currCol, count{0};
+    queue<pair<int,int>> visitQueue;
+
+    for(int i{0}; i<row; ++i) {
+
+        for(int j{0}; j<col; ++j) {
+            if(grid[i][j]=='0') continue;
+            visitQueue.push({i,j});
+            grid[i][j]='0';
+
+            while(!visitQueue.empty()) {
+                currRow=visitQueue.front().first;
+                currCol=visitQueue.front().second;
+                visitQueue.pop();
+                if(currRow>0&&grid[currRow-1][currCol]!='0') {
+                    visitQueue.push({currRow-1,currCol});
+                    grid[currRow-1][currCol]='0';
+                }
+                if(currRow<row-1&&grid[currRow+1][currCol]!='0') {
+                    visitQueue.push({currRow+1,currCol});
+                    grid[currRow+1][currCol]='0';
+                }
+                if(currCol>0&&grid[currRow][currCol-1]!='0') {
+                    visitQueue.push({currRow,currCol-1});
+                    grid[currRow][currCol-1]='0';
+                }
+                if(currCol<col-1&&grid[currRow][currCol+1]!='0') {
+                    visitQueue.push({currRow,currCol+1});
+                    grid[currRow][currCol+1]='0';
+                }
+            }
+
+            ++count;
+        }
+    }
+
+    return count;
+}
+
+// 127M Word Ladder
+int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+    int size=beginWord.size();
+    unordered_map<string,vector<string>> intermediates;
+    bool hasEnd{false};
+    
+    for(string& word:wordList) {
+        if(word==endWord) hasEnd=true;
+        for(int i{0}; i<size; ++i) {
+            string intermediate(word);
+            intermediate[i]='*';
+            intermediates[intermediate].push_back(word);
+        }
+    }
+
+    if(!hasEnd) return 0;
+    
+    unordered_set<string> visited;
+    queue<pair<string,int>> wordQueue;
+    wordQueue.push({beginWord,1});
+    
+    while(!wordQueue.empty()){
+        pair<string,int> curr=wordQueue.front();
+        wordQueue.pop();
+        visited.insert(curr.first);
+
+        for(int i{0}; i<size; ++i) {
+            string intermediate(curr.first);
+            intermediate[i]='*';
+            if(intermediates.find(intermediate)==intermediates.end()) continue;
+
+            for(string& word:intermediates[intermediate]) {
+                if(word==endWord) return curr.second+1;
+                if(visited.find(word)==visited.end()) 
+                    wordQueue.push({word,curr.second+1});
+            }
+        }
+    }
+
+    return 0;
+}
+
+// 244M Shortest Word Distance II
+int shortest(vector<string>& words, string word1, string word2) {
+    unordered_map<string,vector<int>> wordIndices;
+    for(int i{0}; i<words.size(); ++i) wordIndices[words[i]].push_back(i);
+
+    int ptr1{0}, ptr2{0}, shortestDist{INT_MAX};
+    vector<int> *vec1{&(wordIndices[word1])}, *vec2{&(wordIndices[word2])};
+
+    while(ptr1<vec1->size()&&ptr2<vec2->size()) {
+        shortestDist=min(shortestDist,abs((*vec1)[ptr1]-(*vec2)[ptr2]));
+        if((*vec1)[ptr1]<(*vec2)[ptr2]) ++ptr1;
+        else ++ptr2;
+    }
+
+    return shortestDist;
+}
+
+// 253M Meeting Rooms II
+int minMeetingRooms(vector<vector<int>>& intervals) {
+    if(intervals.empty()) return 0;
+
+    int startPtr{0},endPtr{0},numRooms{0},size=intervals.size();
+    vector<int> startTimes, endTimes;
+
+    for(vector<int>& interval:intervals) {
+        startTimes.push_back(interval[0]);
+        endTimes.push_back(interval[1]);
+    }
+
+    sort(startTimes.begin(),startTimes.end());
+    sort(endTimes.begin(),endTimes.end());
+    
+    while(startPtr<size) {
+        if(startTimes[startPtr]<endTimes[endPtr]) ++numRooms;
+        else ++endPtr;
+        ++startPtr;
+    }
+
+    return numRooms;
+}
+
+// 347M Top K Frequent Elements
+vector<int> topKFrequent(vector<int>& nums, int k) {
+    vector<int> result;
+    unordered_map<int,int> numCount;
+    for(int num:nums) ++numCount[num];
+
+    auto cmp=[](pair<int,int>& a,pair<int,int>& b){return a.second<b.second;};
+    priority_queue<pair<int,int>,vector<pair<int,int>>,decltype(cmp)> countQueue(cmp);
+    for(auto& item:numCount) countQueue.push(item);
+
+    while(k>0) {
+        result.push_back(countQueue.top().first);
+        countQueue.pop();
+        --k;
+    }
+
+    return result;
+}
+
+// 394M Decode String
+int decodeStringHelper(string& s,int pos,int size,string& part) {
+    ostringstream oss;
+    istringstream iss;
+    string numStr;
+    int numInt;
+    while(s[pos]!=']'&&pos<size) {
+        if(s[pos]>='0'&&s[pos]<='9') numStr+=s[pos];
+        else if(s[pos]=='[') {
+            iss.str(numStr); 
+            iss>>numInt; 
+            iss.clear();
+            numStr.clear();
+            string subStr;
+            pos=decodeStringHelper(s,pos+1,size,subStr);
+            for(int i{0}; i<numInt; ++i) oss<<subStr;
+        } else oss<<string{s[pos]};
+        ++pos;
+    }
+    part=oss.str();
+    return pos;
+}
+
+string decodeString(string s) {
+    string result;
+    decodeStringHelper(s,0,int(s.size()),result);
+
+    return result;
+}
 
 // 560M Subarray Sum Equals K
 int subarraySum(vector<int>& nums, int k) {
