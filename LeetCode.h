@@ -23,6 +23,7 @@ int numIslands(std::vector<std::vector<char>>& grid);
 std::string longestPalindrome(std::string s);
 std::vector<std::vector<int>> threeSum(std::vector<int>& nums);
 int lengthOfLongestSubstring(std::string s);
+int numDecodings(std::string s);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);

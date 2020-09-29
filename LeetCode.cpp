@@ -9,6 +9,25 @@
 
 using namespace std;
 
+// 91M Decode Ways
+int numDecodingsHelper(string& s, vector<int>& numWaysIdx, int pos, int size) {
+    if(numWaysIdx[pos]!=-1) return numWaysIdx[pos];
+    
+    if(s[pos]=='0') numWaysIdx[pos]=0;
+    else if(pos==size-1) numWaysIdx[pos]=1;
+    else if(pos==size-2) numWaysIdx[pos]=numDecodingsHelper(s,numWaysIdx,pos+1,size)+(stoi(s.substr(pos,2))<=26?1:0);
+    else numWaysIdx[pos]=numDecodingsHelper(s,numWaysIdx,pos+1,size)+(stoi(s.substr(pos,2))<=26?numDecodingsHelper(s,numWaysIdx,pos+2,size):0);
+    
+    return numWaysIdx[pos];
+}
+
+int numDecodings(string s) {
+    int size=s.size();
+    vector<int> numWaysIdx(size,-1);
+
+    return numDecodingsHelper(s,numWaysIdx,0,size);
+}
+
 // 3M Longest Substring without Repeating Characters
 int lengthOfLongestSubstring(string s) {
     unordered_map<char,int> charIndex;
