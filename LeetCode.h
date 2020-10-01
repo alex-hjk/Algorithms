@@ -24,8 +24,13 @@ std::string longestPalindrome(std::string s);
 std::vector<std::vector<int>> threeSum(std::vector<int>& nums);
 int lengthOfLongestSubstring(std::string s);
 int numDecodings(std::string s);
+std::vector<int> productExceptSelf(std::vector<int>& nums);
+std::vector<std::vector<int>> merge(std::vector<std::vector<int>>& intervals);
+int maxArea(std::vector<int>& height);
+int coinChange(std::vector<int>& coins, int amount);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);
+int trap(std::vector<int>& height);
 
 #endif 

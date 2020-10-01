@@ -9,6 +9,84 @@
 
 using namespace std;
 
+// 42H Trapping Rain Water
+int trap(vector<int>& height) {
+    return 0;
+}
+
+// 322M Coin Change
+int coinChange(vector<int>& coins, int amount) {
+    vector<int> minCoins(amount+1,INT_MAX);
+    int size=coins.size();
+
+    minCoins[0]=0;
+
+    for(int i{1}; i<amount+1; ++i) {
+        
+        for(int j{0}; j<size; ++j) {
+            if(coins[j]<=i&&minCoins[i-coins[j]]!=INT_MAX) minCoins[i]=min(minCoins[i],minCoins[i-coins[j]]+1);
+        }
+    }
+
+    return minCoins[amount]==INT_MAX?-1:minCoins[amount];
+}
+
+// 11M Container With Most Water
+int maxArea(vector<int>& height) {
+    int size=height.size(), left{0}, right{size-1}, maxA{0}, currA;
+
+    while(left<right) {
+        currA=min(height[left],height[right])*(right-left);
+        maxA=max(maxA,currA);
+        if(height[left]<height[right]) ++left;
+        else --right;
+    }
+
+    return maxA;
+}
+
+// 56M Merge Intervals
+vector<vector<int>> merge(vector<vector<int>>& intervals) {
+    if(intervals.size()<2) return intervals;
+
+    int currStart{intervals[0][0]}, currEnd{intervals[0][1]}, size=intervals.size();
+    vector<vector<int>> result;
+
+    sort(intervals.begin(),intervals.end(),[](vector<int>& a, vector<int>& b){return a[0]<b[0];});
+
+    for(int i{1}; i<size; ++i) {
+        if(intervals[i][0]>currEnd) {
+            result.push_back({currStart,currEnd});
+            currStart=intervals[i][0];
+            currEnd=intervals[i][1];
+        } else if(intervals[i][1]>currEnd) currEnd=intervals[i][1];
+    }
+
+    result.push_back({currStart,currEnd});
+
+    return result;
+}
+
+// 238M Product of Array Except Self
+vector<int> productExceptSelf(vector<int>& nums) {
+    int size=nums.size(), curr{nums[0]};
+    vector<int> result(size,1);
+
+    for(int i{1}; i<size; ++i) {
+        result[i]*=curr;
+        curr*=nums[i];
+    }
+
+    curr=nums[size-1];
+
+    for(int i{size-2}; i>=0; --i) {
+        result[i]*=curr;
+        curr*=nums[i];
+    }
+
+    return result;
+}
+
 // 91M Decode Ways
 int numDecodingsHelper(string& s, vector<int>& numWaysIdx, int pos, int size) {
     if(numWaysIdx[pos]!=-1) return numWaysIdx[pos];
@@ -51,14 +129,17 @@ int lengthOfLongestSubstring(string s) {
 
 // 15M 3Sum
 vector<vector<int>> threeSum(vector<int>& nums) {
-    vector<vector<int>> result;
     sort(nums.begin(),nums.end());
+
+    vector<vector<int>> result;
     int size=nums.size(), low, high, sum;
+
     for(int i{0}; i<size; ++i) {
         if(nums[i]>0) break;
         low=i+1; 
         high=size-1;
         sum=0;
+
         while(low<high) {
             sum=nums[i]+nums[low]+nums[high];
             if(sum>0) --high;
@@ -67,11 +148,14 @@ vector<vector<int>> threeSum(vector<int>& nums) {
                 result.push_back({nums[i],nums[low],nums[high]});
                 ++low;
                 --high;
+
                 while(low<high&&nums[low]==nums[low-1]) ++low;
             }
         }
+
         while(i<size-1&&nums[i]==nums[i+1]) ++i;
     }
+
     return result;
 }
 
