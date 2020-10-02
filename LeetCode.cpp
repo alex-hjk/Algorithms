@@ -11,6 +11,8 @@ using namespace std;
 
 // 42H Trapping Rain Water
 int trap(vector<int>& height) {
+    cout<<"test"<<endl;
+
     return 0;
 }
 
