@@ -8,9 +8,7 @@
 using namespace std;
 
 int main() {
-    string test{"abcba"};
-    string result=longestPalindrome(test);
-    cout<<result<<endl;
-
+    cout<<"test";
+    
     return 0;
 }

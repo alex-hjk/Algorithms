@@ -1,4 +1,3 @@
-#include <iostream>
 #include <queue>
 #include <sstream>
 #include <stack>
@@ -9,11 +8,131 @@
 
 using namespace std;
 
+// 33M Search in Rotated Sorted Array
+int search(vector<int>& nums, int target) {
+    int size=nums.size(), left{0}, right{size-1}, mid;
+
+    while(left<=right) {
+        mid=left+(right-left)/2;
+        if(nums[mid]==target) return mid;
+        if(nums[mid]>=nums[left]) {
+            if(target<nums[mid]&&target>=nums[left]) right=mid-1;
+            else left=mid+1;
+        } else {
+            if(target>nums[mid]&&target<=nums[right]) left=mid+1;
+            else right=mid-1;
+        }
+    }
+
+    return -1;
+}
+
+// 215M Kth Largest Element in an Array
+int findKthLargest(vector<int>& nums, int k) {
+    sort(nums.begin(),nums.end());
+    
+    return nums[nums.size()-k];
+}
+
+// 22M Generate Parentheses
+void generateParenthesisHelper(vector<string>& result, string currStr, int numOpen, int currSize, int maxSize) {
+    if(currSize==maxSize) result.push_back(currStr);
+    if(numOpen<maxSize/2) generateParenthesisHelper(result,currStr+'(',numOpen+1,currSize+1,maxSize);
+    if(currSize-numOpen<numOpen) generateParenthesisHelper(result,currStr+')',numOpen,currSize+1,maxSize);
+}
+
+vector<string> generateParenthesis(int n) {
+    vector<string> result;
+    generateParenthesisHelper(result,"",0,0,n*2);
+
+    return result;
+}
+
+// 46M Permutations
+vector<vector<int>> permute(vector<int>& nums) {
+    vector<vector<int>> result;
+    sort(nums.begin(),nums.end());
+
+    do {
+        result.push_back(nums);
+    } while(next_permutation(nums.begin(),nums.end()));
+
+    return result;
+}
+
+// 79M Word Search
+bool existHelper(vector<vector<char>>& board, string& word, int row, int col, int idx) {
+    if(board[row][col]!=word[idx]) return false;
+    if(idx==word.size()-1) return true;
+    board[row][col]='*';
+    if(row>0&&existHelper(board,word,row-1,col,idx+1)) return true;
+    if(row<board.size()-1&&existHelper(board,word,row+1,col,idx+1)) return true;
+    if(col>0&&existHelper(board,word,row,col-1,idx+1)) return true;
+    if(col<board[0].size()-1&&existHelper(board,word,row,col+1,idx+1)) return true;
+    board[row][col]=word[idx];
+
+    return false;
+}
+
+bool exist(vector<vector<char>>& board, string word) {
+    int rows=board.size(), cols=board[0].size();
+    vector<vector<bool>> isVisited(rows,vector<bool>(cols,false));
+    
+    for(int i{0}; i<rows; ++i) {
+        for(int j{0}; j<cols; ++j) {
+            if(existHelper(board,word,i,j,0)) return true;
+        }
+    }
+
+    return false;
+}
+
+// 54M Spiral Matrix
+vector<int> spiralOrder(vector<vector<int>>& matrix) {
+    if(matrix.empty()) return {};
+    int rows=matrix.size(), cols=matrix[0].size(), startRow{0}, endRow{rows-1}, startCol{0}, endCol{cols-1};
+
+    vector<int> spiralNum;
+    spiralNum.reserve(rows*cols);
+
+    while(startRow<=endRow&&startCol<=endCol) {
+        for(int i{startCol}; i<=endCol; ++i) spiralNum.push_back(matrix[startRow][i]);
+
+        for(int i{startRow+1}; i<=endRow; ++i) spiralNum.push_back(matrix[i][endCol]);
+
+        if(startRow==endRow) break;
+        if(startCol==endCol) break;
+
+        for(int i{endCol-1}; i>=startCol; --i) spiralNum.push_back(matrix[endRow][i]);
+
+        for(int i{endRow-1}; i>startRow; --i) spiralNum.push_back(matrix[i][startCol]);
+        
+        ++startRow;
+        --endRow;
+        ++startCol;
+        --endCol;
+    }
+
+    return spiralNum;
+}
+
 // 42H Trapping Rain Water
 int trap(vector<int>& height) {
-    cout<<"test"<<endl;
+    int maxLeft{0}, maxRight{0}, areaTrapped{0}, size=height.size();
+    vector<int> heightDiff(size,0);
 
-    return 0;
+    for(int i{0}; i<size; ++i) {
+        heightDiff[i]=maxLeft;
+        maxLeft=max(maxLeft,height[i]);
+    }
+
+    for(int i{size-1}; i>=0; --i) {
+        heightDiff[i]=min(heightDiff[i],maxRight);
+        if(heightDiff[i]>=height[i]) areaTrapped+=heightDiff[i]-height[i];
+        maxRight=max(maxRight,height[i]);
+    }
+
+    return areaTrapped;
 }
 
 // 322M Coin Change

@@ -28,6 +28,12 @@ std::vector<int> productExceptSelf(std::vector<int>& nums);
 std::vector<std::vector<int>> merge(std::vector<std::vector<int>>& intervals);
 int maxArea(std::vector<int>& height);
 int coinChange(std::vector<int>& coins, int amount);
+std::vector<int> spiralOrder(std::vector<std::vector<int>>& matrix);
+bool exist(std::vector<std::vector<char>>& board, std::string word);
+std::vector<std::vector<int>> permute(std::vector<int>& nums);
+std::vector<std::string> generateParenthesis(int n);
+int findKthLargest(std::vector<int>& nums, int k);
+int search(std::vector<int>& nums, int target);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);
