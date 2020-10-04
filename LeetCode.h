@@ -34,6 +34,7 @@ std::vector<std::vector<int>> permute(std::vector<int>& nums);
 std::vector<std::string> generateParenthesis(int n);
 int findKthLargest(std::vector<int>& nums, int k);
 int search(std::vector<int>& nums, int target);
+bool wordBreak(std::string s, std::vector<std::string>& wordDict);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);

@@ -8,6 +8,11 @@
 
 using namespace std;
 
+// 139M Word Break
+bool wordBreak(string s, vector<string>& wordDict) {
+    return true;
+}
+
 // 33M Search in Rotated Sorted Array
 int search(vector<int>& nums, int target) {
     int size=nums.size(), left{0}, right{size-1}, mid;
