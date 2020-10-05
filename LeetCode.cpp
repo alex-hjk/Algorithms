@@ -10,7 +10,34 @@ using namespace std;
 
 // 139M Word Break
 bool wordBreak(string s, vector<string>& wordDict) {
-    return true;
+    int size=s.size(), currIdx;
+    string currStr;
+    queue<int> idxQueue;
+    vector<bool> isVisited(size,false);
+    unordered_set<string> wordSet;
+
+    for(string& word:wordDict) wordSet.insert(word);
+    idxQueue.push(0);
+
+    while(!idxQueue.empty()) {
+        currIdx=idxQueue.front();
+        idxQueue.pop();
+        if(!isVisited[currIdx]) {
+            isVisited[currIdx]=true;
+
+            for(int i{currIdx}; i<size; ++i) {
+                currStr.push_back(s[i]);
+                if(wordSet.find(currStr)!=wordSet.end()) {
+                    if(i==size-1) return true;
+                    idxQueue.push(i+1);
+                }
+            }
+
+            currStr="";
+        }
+    }
+
+    return false;
 }
 
 // 33M Search in Rotated Sorted Array
