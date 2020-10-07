@@ -8,6 +8,276 @@
 
 using namespace std;
 
+class copyRandomListNode {
+public:
+    int val;
+    copyRandomListNode* next;
+    copyRandomListNode* random;
+
+    copyRandomListNode(int val) {
+        this->val=val;
+        this->next=nullptr;
+        this->random=nullptr;
+    }
+};
+
+class TreeNode {
+public:
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
+    
+};
+
+class ListNode {
+public:
+    int val;
+    ListNode *next;
+
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
+// 234E Palindrome Linked List
+bool isPalindrome(ListNode* head) {
+    if(head==nullptr||head->next==nullptr) return true;
+    ListNode *stepOne{head}, *stepTwo{head->next};
+
+    while(stepTwo->next!=nullptr&&stepTwo->next->next!=nullptr) {
+        stepOne=stepOne->next;
+        stepTwo=stepTwo->next->next;
+    }
+
+    ListNode* curr{(stepTwo->next!=nullptr)?stepTwo:(stepOne->next)}, *temp{nullptr}, *prev{nullptr};
+
+    while(curr!=nullptr) {
+        temp=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=temp;
+    }
+
+    while(prev!=nullptr) {
+        if(prev->val!=head->val) return false;
+        prev=prev->next;
+        head=head->next;
+    }
+
+    return true;
+}
+
+// 14E Longest Common Prefix
+string longestCommonPrefix(vector<string>& strs) {
+    if(strs.empty()) return "";
+    int minSize{INT_MAX};
+    
+    for(string& str:strs) minSize=str.size()<minSize?str.size():minSize;
+    
+    if(!minSize) return "";
+    string prefix;
+    char currCh;
+    int currIdx{0};
+    
+    while(currIdx<minSize) {
+        currCh=strs[0][currIdx];
+        
+        for(string& str:strs) if(currCh!=str[currIdx]) return prefix;
+        
+        prefix+=currCh;
+        ++currIdx;
+    }
+    
+    return prefix;
+}
+
+// 105M Construct Binary Tree from Preorder and Inorder Traversal
+TreeNode* buildTreeHelper(vector<int>& preorder, vector<int>& inorder, int startPre, int endPre, int startIn, unordered_map<int,int>& inNumMap) {
+    if(startPre>endPre) return nullptr;
+    TreeNode* root=new TreeNode(preorder[startPre]);
+
+    if(startPre<endPre) {
+        int leftSize{inNumMap[preorder[startPre]]-startIn};
+        int rightSize{endPre-startPre-leftSize};
+        root->left=buildTreeHelper(preorder,inorder,startPre+1,startPre+leftSize,startIn,inNumMap);
+        root->right=buildTreeHelper(preorder,inorder,endPre-rightSize+1,endPre,startIn+leftSize+1,inNumMap);
+    }
+
+    return root;
+}
+
+TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+    int size=preorder.size();
+    unordered_map<int,int> inNumMap;
+
+    for(int i{0}; i<size; ++i) inNumMap[inorder[i]]=i;
+
+    return buildTreeHelper(preorder,inorder,0,size-1,0,inNumMap);
+}
+
+// 111E Minimum Depth of Binary Tree
+int minDepth(TreeNode* root) {
+    if(root==nullptr) return 0;
+    
+    if(root->left==nullptr) return minDepth(root->right)+1;
+    else if(root->right==nullptr) return minDepth(root->left)+1;
+    else return min(minDepth(root->left),minDepth(root->right))+1;
+}
+
+// 104E Maximum Depth of Binary Tree
+int maxDepth(TreeNode* root) {
+    if(root==nullptr) return 0;
+
+    return max(maxDepth(root->left),maxDepth(root->right))+1;
+}
+
+// 110E Balanced Binary Tree
+int isBalancedHelper(TreeNode* root) {
+    if(root==nullptr) return 0;
+
+    int leftHeight{isBalancedHelper(root->left)}, rightHeight{isBalancedHelper(root->right)};
+    if(leftHeight==-1||rightHeight==-1||abs(leftHeight-rightHeight)>1) return -1;
+    
+    return max(leftHeight,rightHeight)+1;
+}
+
+bool isBalanced(TreeNode* root) {
+
+    return isBalancedHelper(root)!=-1;
+}
+
+// 300M Longest Increasing Subsequence
+int lengthOfLIS(vector<int>& nums) {
+    if(nums.empty()) return 0;
+    int size=nums.size(), longest{1}, currMax{1};
+    vector<int> longestLength(size,1);
+
+    for(int i{1}; i<size; ++i) {
+        currMax=1;
+
+        for(int j{0}; j<i; ++j) if(nums[i]>nums[j]) currMax=max(currMax,longestLength[j]+1);
+
+        longestLength[i]=currMax;
+        longest=max(longest,currMax);
+    }
+
+    return longest;
+}
+
+// 48M Rotate Image
+void rotate(vector<vector<int>>& matrix) {
+    int size=matrix.size();
+    if(size<2) return;
+
+    int startRow{0}, endRow{size-1}, startCol{0}, endCol{size-1}, temp{0}, numShifts{0};
+
+    while(startRow<endRow) {
+        numShifts=endRow-startRow;
+
+        while(numShifts>0) {
+            temp=matrix[startRow][startCol];
+
+            for(int i{startRow+1}; i<=endRow; ++i) matrix[i-1][startCol]=matrix[i][startCol];
+
+            for(int i{startCol+1}; i<=endCol; ++i) matrix[endRow][i-1]=matrix[endRow][i];
+
+            for(int i{endRow-1}; i>=startRow; --i) matrix[i+1][endCol]=matrix[i][endCol];
+
+            for(int i{endCol-1}; i>startCol; --i) matrix[startRow][i+1]=matrix[startRow][i];
+
+            matrix[startRow][startCol+1]=temp;
+            --numShifts;
+        }
+
+        ++startRow;
+        --endRow;
+        ++startCol;
+        --endCol;
+    }
+}
+
+// 49M Group Anagrams
+vector<vector<string>> groupAnagrams(vector<string>& strs) {
+    unordered_map<string,int> stringMap;
+    vector<vector<string>> result;
+    int currIdx{0};
+    string tempStr;
+    
+    for(string& str:strs) {
+        tempStr=str;
+        sort(tempStr.begin(),tempStr.end());
+        if(stringMap.find(tempStr)!=stringMap.end()) result[stringMap[tempStr]].push_back(str);
+        else {
+            result.push_back({str});
+            stringMap[tempStr]=currIdx;
+            ++currIdx;
+        }
+    }
+
+    return result;
+}
+
+// 138M Copy List with Random Pointer
+copyRandomListNode* copyRandomList(copyRandomListNode* head) {
+    if(head==nullptr) return nullptr;
+    copyRandomListNode *currNode{head}, *tempNode{nullptr}, *newHead{nullptr};
+
+    while(currNode!=nullptr) {
+        tempNode=currNode->next;
+        currNode->next=new copyRandomListNode(currNode->val);
+        currNode->next->next=tempNode;
+        currNode=tempNode;
+    }
+
+    currNode=head;
+
+    while(currNode!=nullptr) {
+        currNode->next->random=(currNode->random!=nullptr)?currNode->random->next:nullptr;
+        currNode=currNode->next->next;
+    }
+
+    currNode=head;
+    newHead=head->next;
+
+    while(currNode!=nullptr) {
+        tempNode=currNode->next;
+        currNode->next=tempNode->next;
+        tempNode->next=(currNode->next!=nullptr)?currNode->next->next:nullptr;
+        currNode=currNode->next;
+    }
+
+    return newHead;
+}
+
+// 17M Letter Combinations of a Phone Number
+void letterCombinationsHelper(string& digits, int pos, int size, unordered_map<char,vector<char>>& charMap, vector<string>& result, string currStr) {
+    if(pos==size) result.push_back(currStr);
+
+    for(char c:charMap[digits[pos]]) letterCombinationsHelper(digits,pos+1,size,charMap,result,currStr+c);
+}
+
+vector<string> letterCombinations(string digits) {
+    int size=digits.size();
+    vector<string> result;
+    unordered_map<char,vector<char>> charMap;
+    charMap['2']={'a','b','c'};
+    charMap['3']={'d','e','f'};
+    charMap['4']={'g','h','i'};
+    charMap['5']={'j','k','l'};
+    charMap['6']={'m','n','o'};
+    charMap['7']={'p','q','r','s'};
+    charMap['8']={'t','u','v'};
+    charMap['9']={'w','x','y','z'};
+
+    if(!digits.empty()) letterCombinationsHelper(digits,0,size,charMap,result,"");
+
+    return result;
+}
+
 // 139M Word Break
 bool wordBreak(string s, vector<string>& wordDict) {
     int size=s.size(), currIdx;

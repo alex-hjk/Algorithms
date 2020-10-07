@@ -4,6 +4,13 @@
 #include <vector>
 #include <string>
 
+// Easy
+bool isBalanced(TreeNode* root);
+int maxDepth(TreeNode* root);
+int minDepth(TreeNode* root);
+std::string longestCommonPrefix(std::vector<std::string>& strs);
+bool isPalindrome(ListNode* head);
+
 // Medium
 int maximalSquare(std::vector<std::vector<char>>& matrix);
 int pickIndex(std::vector<int>& w);
@@ -35,9 +42,52 @@ std::vector<std::string> generateParenthesis(int n);
 int findKthLargest(std::vector<int>& nums, int k);
 int search(std::vector<int>& nums, int target);
 bool wordBreak(std::string s, std::vector<std::string>& wordDict);
+std::vector<std::string> letterCombinations(std::string digits);
+copyRandomListNode* copyRandomList(copyRandomListNode* head);
+std::vector<std::vector<std::string>> groupAnagrams(std::vector<std::string>& strs);
+void rotate(std::vector<std::vector<int>>& matrix);
+int lengthOfLIS(std::vector<int>& nums);
+TreeNode* buildTree(std::vector<int>& preorder, std::vector<int>& inorder);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);
 int trap(std::vector<int>& height);
+
+// Extra Classes
+
+class copyRandomListNode {
+public:
+    int val;
+    copyRandomListNode* next;
+    copyRandomListNode* random;
+
+    copyRandomListNode(int val) {
+        this->val=val;
+        this->next=nullptr;
+        this->random=nullptr;
+    }
+};
+
+class TreeNode {
+public:
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
+    
+};
+
+class ListNode {
+public:
+    int val;
+    ListNode *next;
+    
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
 
 #endif 
