@@ -43,6 +43,47 @@ public:
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
+// 131M Palindrome Partitioning
+void partitionHelper(vector<vector<string>>& result, vector<vector<bool>>& isPalindrome, string& s, vector<string>& currVec, int pos, int& size) {
+    string currStr;
+
+    for(int i{pos}; i<size; ++i) {
+        currStr+=s[i];
+        if(isPalindrome[pos][i]) {
+            if(i==size-1) {
+                currVec.push_back(currStr);
+                result.push_back(currVec);
+            } else {
+                currVec.push_back(currStr);
+                partitionHelper(result,isPalindrome,s,currVec,i+1,size);
+            }
+            currVec.pop_back();
+        }
+    }
+}
+
+vector<vector<string>> partition(string s) {
+    if(s.empty()) return {};
+    int size=s.size();
+    vector<vector<bool>> isPalindrome(size,vector<bool> (size,false));
+
+    for(int i{size-1}; i>=0; --i) {
+        isPalindrome[i][i]=true;
+        for(int j{i+1}; j<size; ++j) {
+            if(s[i]==s[j]) {
+                if(i+1<j-1) isPalindrome[i][j]=isPalindrome[i+1][j-1];
+                else isPalindrome[i][j]=true;
+            }
+        }
+    }
+
+    vector<vector<string>> result;
+    vector<string> currVec;
+    partitionHelper(result,isPalindrome,s,currVec,0,size);
+
+    return result;
+}
+
 // 234E Palindrome Linked List
 bool isPalindrome(ListNode* head) {
     if(head==nullptr||head->next==nullptr) return true;
@@ -153,19 +194,18 @@ bool isBalanced(TreeNode* root) {
 // 300M Longest Increasing Subsequence
 int lengthOfLIS(vector<int>& nums) {
     if(nums.empty()) return 0;
-    int size=nums.size(), longest{1}, currMax{1};
-    vector<int> longestLength(size,1);
+    int size=nums.size();
+    vector<int> longestSequence;
+    longestSequence.reserve(size);
+    longestSequence.push_back(nums[0]);
 
     for(int i{1}; i<size; ++i) {
-        currMax=1;
-
-        for(int j{0}; j<i; ++j) if(nums[i]>nums[j]) currMax=max(currMax,longestLength[j]+1);
-
-        longestLength[i]=currMax;
-        longest=max(longest,currMax);
+        if(nums[i]>longestSequence.back()) longestSequence.push_back(nums[i]);
+        else if(nums[i]<longestSequence[0]) longestSequence[0]=nums[i];
+        else *(lower_bound(longestSequence.begin(),longestSequence.end(),nums[i]))=nums[i];
     }
 
-    return longest;
+    return longestSequence.size();
 }
 
 // 48M Rotate Image
