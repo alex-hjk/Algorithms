@@ -43,6 +43,42 @@ public:
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
+// 70E Climbing Stairs
+int climbStairs(int n) {
+    if(n<3) return n;
+    int prev1{2}, prev2{1}, temp;
+
+    for(int i{3}; i<=n; ++i) {
+        temp=prev1+prev2;
+        prev2=prev1;
+        prev1=temp;
+    }
+
+    return prev1;
+}
+
+// 78M Subsets
+vector<vector<int>> subsets(vector<int>& nums) {
+    int size=nums.size(), count{1}, vecSize=pow(2,size);
+    vector<vector<int>> result;
+
+    result.reserve(vecSize);
+    result.push_back({});
+
+    for(int i{0}; i<size; ++i) {
+
+        for(int j{0}; j<count; ++j) {
+            result[j].push_back(nums[i]);
+            result.push_back(result[j]);
+            result[j].pop_back();
+        }
+
+        count+=count;
+    }
+
+    return result;
+}
+
 // 131M Palindrome Partitioning
 void partitionHelper(vector<vector<string>>& result, vector<vector<bool>>& isPalindrome, string& s, vector<string>& currVec, int pos, int& size) {
     string currStr;

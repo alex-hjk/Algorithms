@@ -46,6 +46,7 @@ int maxDepth(TreeNode* root);
 int minDepth(TreeNode* root);
 std::string longestCommonPrefix(std::vector<std::string>& strs);
 bool isPalindrome(ListNode* head);
+int climbStairs(int n);
 
 // Medium
 int maximalSquare(std::vector<std::vector<char>>& matrix);
@@ -85,6 +86,7 @@ void rotate(std::vector<std::vector<int>>& matrix);
 int lengthOfLIS(std::vector<int>& nums);
 TreeNode* buildTree(std::vector<int>& preorder, std::vector<int>& inorder);
 std::vector<std::vector<std::string>> partition(std::string s);
+std::vector<std::vector<int>> subsets(std::vector<int>& nums);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);
