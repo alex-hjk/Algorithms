@@ -40,6 +40,18 @@ public:
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
+class DoubleLinkedNode {
+public:
+    int key;
+    int val;
+    DoubleLinkedNode* next;
+    DoubleLinkedNode* prev;
+
+    DoubleLinkedNode(): next(nullptr), prev(nullptr), key(0), val(0) {}
+    DoubleLinkedNode(int key, int val): next(nullptr), prev(nullptr), key(key), val(val) {}
+    DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
+};
+
 // Easy
 bool isBalanced(TreeNode* root);
 int maxDepth(TreeNode* root);
@@ -87,6 +99,10 @@ int lengthOfLIS(std::vector<int>& nums);
 TreeNode* buildTree(std::vector<int>& preorder, std::vector<int>& inorder);
 std::vector<std::vector<std::string>> partition(std::string s);
 std::vector<std::vector<int>> subsets(std::vector<int>& nums);
+int maxProduct(std::vector<int>& nums);
+std::vector<int> searchRange(std::vector<int>& nums, int target);
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q);
+std::vector<std::vector<int>> zigzagLevelOrder(TreeNode* root);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);

@@ -1,3 +1,4 @@
+#include <deque>
 #include <queue>
 #include <sstream>
 #include <stack>
@@ -42,6 +43,168 @@ public:
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
+
+class DoubleLinkedNode {
+public:
+    DoubleLinkedNode* next;
+    DoubleLinkedNode* prev;
+    int key;
+    int val;
+
+    DoubleLinkedNode(): next(nullptr), prev(nullptr), key(0), val(0) {}
+    DoubleLinkedNode(int key, int val): next(nullptr), prev(nullptr), key(key), val(val) {}
+    DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
+};
+
+// 146M LRU Cache
+class LRUCache {
+private:
+    unordered_map<int,DoubleLinkedNode*> nodeMap;
+    DoubleLinkedNode* head;
+    DoubleLinkedNode* tail;
+    int capacity;
+    int size{0};
+
+    void addNode(DoubleLinkedNode* node) {
+        node->prev=head;
+        node->next=head->next;
+        head->next=node;
+        node->next->prev=node;
+    }
+
+    void removeNode(DoubleLinkedNode* node) {
+        node->prev->next=node->next;
+        node->next->prev=node->prev;
+    }
+
+    void moveToHead(DoubleLinkedNode* node) {
+        removeNode(node);
+        addNode(node);
+    }
+
+    void evictTail(DoubleLinkedNode* node) {
+        removeNode(node);
+        delete node;
+    }
+
+public:
+    LRUCache(int capacity): capacity(capacity) {
+        head=new DoubleLinkedNode();
+        tail=new DoubleLinkedNode();
+        head->next=tail;
+        tail->prev=head;
+    }
+
+    int get(int key) {
+        if(nodeMap.find(key)!=nodeMap.end()) {
+            moveToHead(nodeMap[key]);
+
+            return nodeMap[key]->val;
+        }
+
+        return -1;
+    }
+
+    void put(int key, int value) {
+        if(nodeMap.find(key)!=nodeMap.end()) {
+            nodeMap[key]->val=value;
+            moveToHead(nodeMap[key]);
+        } else {
+            DoubleLinkedNode* newNode=new DoubleLinkedNode(key,value);
+            nodeMap[key]=newNode;
+            addNode(newNode);
+            ++size;
+
+            if(size>capacity) {
+                nodeMap.erase(tail->prev->key);
+                evictTail(tail->prev);
+                --size;
+            }
+        }
+    }
+};
+
+// 103M Binary Tree Zigzag Level Order Traversal
+vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+    vector<vector<int>> result;
+    queue<TreeNode*> nodeQueue;
+    bool isLeft{false};
+    int currSize{0};
+
+    if(root==nullptr) return result;
+    nodeQueue.push(root);
+
+    while(!nodeQueue.empty()) {
+        result.push_back({});
+        currSize=nodeQueue.size();
+        result.back().reserve(currSize);
+
+        while(currSize>0) {
+            result.back().push_back(nodeQueue.front()->val);
+            if(nodeQueue.front()->left!=nullptr) nodeQueue.push(nodeQueue.front()->left);
+            if(nodeQueue.front()->right!=nullptr) nodeQueue.push(nodeQueue.front()->right);
+            nodeQueue.pop();
+            --currSize;
+        }
+
+        if(isLeft) reverse(result.back().begin(),result.back().end());
+        isLeft=!isLeft;
+    }
+
+    return result;
+}
+
+// 236M Lowest Common Ancestor of a Binary Tree
+bool lowestCommonAncestorHelper(TreeNode* root, TreeNode* p, TreeNode* q, TreeNode** result) {
+    if(root==nullptr) return false;
+
+    bool left=lowestCommonAncestorHelper(root->left,p,q,result);
+    bool right=lowestCommonAncestorHelper(root->right,p,q,result);
+    bool mid=root==p||root==q;
+
+    if(left+right+mid>1) *result=root;
+
+    if(left+right+mid>0) return true;
+
+    return false;
+}
+
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    TreeNode* result{nullptr};
+    lowestCommonAncestorHelper(root,p,q,&result);
+    return result;
+}
+
+// 34M Find First and Last Position of Element in Sorted Array
+vector<int> searchRange(vector<int>& nums, int target) {
+    int startPos{0}, endPos{0};
+        
+    auto itStart=lower_bound(nums.begin(),nums.end(),target);
+    startPos=itStart-nums.begin();
+    if(itStart==nums.end()||nums[startPos]!=target) return {-1,-1};
+    
+    auto itEnd=upper_bound(nums.begin(),nums.end(),target);
+    if(itEnd==nums.end()) endPos=nums.size()-1;
+    else endPos=itEnd-nums.begin()-1;
+    
+    return {startPos,endPos};
+}
+
+// 152M Maximum Product Subarray
+int maxProduct(vector<int>& nums) {
+    if(nums.empty()) return 0;
+    int result{nums[0]}, minProduct{nums[0]}, maxProduct{nums[0]}, size=nums.size(), newMin{0}, newMax{0};
+
+    for(int i{1}; i<size; ++i) {
+        newMin=minProduct*nums[i];
+        newMax=maxProduct*nums[i];
+        minProduct=min({nums[i],newMin,newMax});
+        maxProduct=max({nums[i],newMin,newMax});
+        result=max(result,maxProduct);
+    }
+    
+    return result;
+}
 
 // 70E Climbing Stairs
 int climbStairs(int n) {
