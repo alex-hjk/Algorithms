@@ -56,6 +56,55 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 287M Find the Duplicate Number
+int findDuplicate(vector<int>& nums) {
+    int fast{nums[0]}, slow{nums[0]};
+
+    do {
+        fast=nums[nums[fast]];
+        slow=nums[slow];
+    } while(fast!=slow);
+
+    slow=nums[0];
+
+    while(fast!=slow) {
+        fast=nums[fast];
+        slow=nums[slow];
+    }
+
+    return fast;
+}
+
+// 142M Linked List Cycle II
+ListNode* detectCycle(ListNode* head) {
+    ListNode* jumpOne{head};
+    ListNode* jumpTwo{head};
+    bool hasIntersect{false};
+
+    while(jumpOne!=nullptr&&jumpTwo!=nullptr) {
+        jumpOne=jumpOne->next;
+        if(jumpTwo->next!=nullptr) jumpTwo=jumpTwo->next->next;
+        else break;
+        if(jumpOne==jumpTwo&&jumpOne!=nullptr) {
+            hasIntersect=true;
+            break;
+        }
+    }
+
+    if(hasIntersect) {
+        jumpOne=head;
+
+        while(jumpOne!=jumpTwo) {
+            jumpOne=jumpOne->next;
+            jumpTwo=jumpTwo->next;
+        }
+
+        return jumpOne;
+    }
+
+    return nullptr;
+}
+
 // 146M LRU Cache
 class LRUCache {
 private:

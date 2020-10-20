@@ -103,6 +103,8 @@ int maxProduct(std::vector<int>& nums);
 std::vector<int> searchRange(std::vector<int>& nums, int target);
 TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q);
 std::vector<std::vector<int>> zigzagLevelOrder(TreeNode* root);
+ListNode* detectCycle(ListNode* head);
+int findDuplicate(std::vector<int>& nums);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);
