@@ -56,6 +56,51 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 109M Convert Sorted List to Binary Search Tree
+TreeNode* sortedListToBSTHelper1(ListNode* start, int size) {
+    if(start==nullptr||size==0) return nullptr;
+
+    int mid{size/2};
+    ListNode* curr{start};
+s
+    for(int i{0}; i<mid; ++i) curr=curr->next;
+
+    TreeNode* head=new TreeNode(curr->val);
+    head->left=sortedListToBSTHelper(start,mid);
+    head->right=sortedListToBSTHelper(curr->next,size-mid-1);
+    
+    return head;
+}
+
+TreeNode* sortedListToBST(ListNode* head) {
+    int size{0};
+    ListNode* curr{head};
+    
+    while(curr!=nullptr) {
+        ++size;
+        curr=curr->next;
+    }
+
+    return sortedListToBSTHelper(head,0);
+}
+
+// 279M Perfect Squares
+int numSquares(int n) {
+    static vector<int> minSquares(1,0);
+    int size=minSquares.size();
+    
+    if(n+1>size) {
+
+        for(int i{size}; i<=n; ++i) {
+            minSquares.push_back(INT_MAX);
+
+            for(int j{1}; j*j<=i; ++j) minSquares[i]=min(minSquares[i],minSquares[i-j*j]+1);
+        }
+    }
+
+    return minSquares[n];
+}
+
 // 210M Course Schedule II
 void findOrderHelper(int courseNum, vector<int>& courseOrder, vector<int>& visitStatus, vector<vector<int>>& coursePrereqs, bool& hasCycle) {
     if(visitStatus[courseNum]!=2&&!hasCycle) {
