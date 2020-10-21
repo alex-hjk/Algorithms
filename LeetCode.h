@@ -105,6 +105,8 @@ TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q);
 std::vector<std::vector<int>> zigzagLevelOrder(TreeNode* root);
 ListNode* detectCycle(ListNode* head);
 int findDuplicate(std::vector<int>& nums);
+bool isValidBST(TreeNode* root);
+std::vector<int> findOrder(int numCourses, std::vector<std::vector<int>>& prerequisites);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);

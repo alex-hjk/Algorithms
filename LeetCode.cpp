@@ -56,6 +56,48 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 210M Course Schedule II
+void findOrderHelper(int courseNum, vector<int>& courseOrder, vector<int>& visitStatus, vector<vector<int>>& coursePrereqs, bool& hasCycle) {
+    if(visitStatus[courseNum]!=2&&!hasCycle) {
+        if(visitStatus[courseNum]!=1) {
+            visitStatus[courseNum]=1;
+
+            for(int course:coursePrereqs[courseNum]) findOrderHelper(course,courseOrder,visitStatus,coursePrereqs,hasCycle);
+            
+            courseOrder.push_back(courseNum);
+            visitStatus[courseNum]=2;
+        } else hasCycle=true;
+    }
+}
+
+vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+    bool hasCycle{false};
+    vector<int> courseOrder;
+    vector<int> visitStatus(numCourses,0);
+    vector<vector<int>> coursePrereqs(numCourses,vector<int>{});
+    
+    courseOrder.reserve(numCourses);
+
+    for(vector<int>& prereq:prerequisites) coursePrereqs[prereq[0]].push_back(prereq[1]);
+
+    for(int i{0}; i<numCourses; ++i) findOrderHelper(i,courseOrder,visitStatus,coursePrereqs,hasCycle);
+
+    if(hasCycle) return {};
+    else return courseOrder;
+}
+
+// 98M Validate Binary Search Tree
+bool isValidBSTHelper(TreeNode* curr, int leftBound, int rightBound) {
+    if(curr==nullptr) return true;
+    else if(curr->val>leftBound&&curr->val<rightBound) 
+        return isValidBSTHelper(curr->left,leftBound,curr->val)&&isValidBSTHelper(curr->right,curr->val,rightBound);
+    else return false;
+}
+
+bool isValidBST(TreeNode* root) {
+    return isValidBSTHelper(root,long(INT_MIN)-1,long(INT_MAX)+1);
+}
+
 // 287M Find the Duplicate Number
 int findDuplicate(vector<int>& nums) {
     int fast{nums[0]}, slow{nums[0]};
