@@ -56,6 +56,23 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 75M Sort Colors
+void sortColors(vector<int>& nums) {
+    int zeroPtr{0}, twoPtr=nums.size()-1, currPtr{0};
+
+    while(currPtr<=twoPtr) {
+        if(nums[currPtr]==0) {
+            swap(nums[zeroPtr],nums[currPtr]);
+            ++zeroPtr;
+            ++currPtr;
+        } else if(nums[currPtr]==1) ++currPtr;
+        else {
+            swap(nums[twoPtr],nums[currPtr]);
+            --twoPtr;
+        }
+    }
+}
+
 // 109M Convert Sorted List to Binary Search Tree
 TreeNode* sortedListToBSTHelper1(ListNode* start, int size) {
     if(start==nullptr||size==0) return nullptr;

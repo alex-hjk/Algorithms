@@ -109,6 +109,7 @@ bool isValidBST(TreeNode* root);
 std::vector<int> findOrder(int numCourses, std::vector<std::vector<int>>& prerequisites);
 int numSquares(int n);
 TreeNode* sortedListToBST(ListNode* head);
+void sortColors(std::vector<int>& nums);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);
