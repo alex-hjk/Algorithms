@@ -7,7 +7,50 @@
 
 using namespace std;
 
-// Levenshtein Distance with Operations Made
+// Max Tasks to Fit in Time Interval
+int maxTasks(vector<pair<int,int>>& tasks, int start, int end) {
+    return 0;
+}
+
+// Memory Copy (ByteDance)
+void* memCopy(void* dst, const void* src, size_t count) {
+    char* s=static_cast<char*>(const_cast<void*>(src));
+    char* d=static_cast<char*>(dst);
+
+    if(d>s) {
+        while(count--) {
+            d[count]=s[count];
+        }
+    } else {
+        int i=0;
+        while(i<count) {
+            d[i]=s[i];
+            ++i;
+        }
+    }
+
+    return dst;
+}
+
+// Number of Online Users per Time Interval (ByteDance)
+vector<int> numOnline(vector<pair<int,int>>& timings, int numSeconds) {
+    vector<int> result(numSeconds+1,0);
+
+    for(auto item:timings) {
+        ++result[item.first-1];
+        --result[item.second];
+    }
+
+    for(int i{1}; i<numSeconds; ++i) {
+        result[i]+=result[i-1];
+    }
+
+    result.pop_back();
+
+    return result;
+}
+
+// Levenshtein Distance with Operations Made (CodeItSuisse)
 pair<string,int> levenshteinDistance(string& startStr, string& endStr) {
     int startSize=startStr.size(), endSize=endStr.size();
     vector<vector<int>> distGrid(startSize+1,vector<int>(endSize+1,0));

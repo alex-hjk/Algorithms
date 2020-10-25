@@ -110,6 +110,10 @@ std::vector<int> findOrder(int numCourses, std::vector<std::vector<int>>& prereq
 int numSquares(int n);
 TreeNode* sortedListToBST(ListNode* head);
 void sortColors(std::vector<int>& nums);
+double myPow(double x, int n);
+bool searchMatrix(std::vector<std::vector<int>>& matrix, int target);
+int canCompleteCircuit(std::vector<int>& gas, std::vector<int>& cost);
+ListNode* removeNthFromEnd(ListNode* head, int n);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);

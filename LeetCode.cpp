@@ -56,6 +56,85 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 55M Jump Game
+bool canJump(vector<int>& nums) {
+    int size=nums.size(), lastPos{nums[size-1]};
+
+    for(int i{size-1}; i>=0; --i) if(i+nums[i]>=lastPos) lastPos=i;
+
+    return lastPos==0;
+}
+
+// 19M Remove Nth Node From End of List
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode *back{head}, *front{head};
+
+    while(n>0) {
+        front=front->next;
+        --n;
+    }
+
+    if(front==nullptr) return head->next;
+
+    while(front->next!=nullptr) {
+        front=front->next;
+        back=back->next;
+    }
+
+    back->next=back->next->next;
+
+    return head;
+}
+
+// 134M Gas Station
+int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+    int total{0}, curr{0}, start{0}, size=gas.size();
+
+    for(int i{0}; i<size; ++i) {
+        curr+=gas[i]-cost[i];
+        total+=gas[i]-cost[i];
+        if(curr<0) {
+            curr=0;
+            start=i+1;
+        }
+    }
+
+    if(total<0) return -1;
+    else return start;
+}
+
+// 240M Search a 2D Matrix II
+bool searchMatrix(vector<vector<int>>& matrix, int target) {
+    if(matrix.size()==0) return false;
+    int numRow=matrix.size(), numCol=matrix[0].size(), row{numRow-1}, col{0};
+
+    while(row>=0&&col<numCol) {
+        if(matrix[row][col]==target) return true;
+        else if(matrix[row][col]<target) --row;
+        else ++col;
+    }
+    
+    return false;
+}
+
+// 50M Pow(x,n)
+double myPow(double x, int n) {
+    long N=n;
+    double result{1}, currProduct{x};
+
+    if(n<0) {
+        N=-N;
+        currProduct=1/currProduct;
+    }
+
+    for(long i{N}; i>0; i/=2) {
+        if(i%2==1) result*=currProduct;
+        currProduct*=currProduct;
+    }
+
+    return result;
+}
+
 // 75M Sort Colors
 void sortColors(vector<int>& nums) {
     int zeroPtr{0}, twoPtr=nums.size()-1, currPtr{0};
@@ -79,14 +158,26 @@ TreeNode* sortedListToBSTHelper1(ListNode* start, int size) {
 
     int mid{size/2};
     ListNode* curr{start};
-s
     for(int i{0}; i<mid; ++i) curr=curr->next;
 
     TreeNode* head=new TreeNode(curr->val);
-    head->left=sortedListToBSTHelper(start,mid);
-    head->right=sortedListToBSTHelper(curr->next,size-mid-1);
+    head->left=sortedListToBSTHelper1(start,mid);
+    head->right=sortedListToBSTHelper1(curr->next,size-mid-1);
     
     return head;
+}
+
+TreeNode* sortedListToBSTHelper2(ListNode** head, int start, int end) {
+    if(start>end) return nullptr;
+    int mid{start+(end-start)/2};
+
+    TreeNode* left{sortedListToBSTHelper2(head,start,mid-1)};
+    TreeNode* root=new TreeNode((*head)->val);
+    root->left=left;
+    *head=(*head)->next;
+    root->right=sortedListToBSTHelper2(head,mid+1,end);
+
+    return root;
 }
 
 TreeNode* sortedListToBST(ListNode* head) {
@@ -98,7 +189,8 @@ TreeNode* sortedListToBST(ListNode* head) {
         curr=curr->next;
     }
 
-    return sortedListToBSTHelper(head,0);
+    // return sortedListToBSTHelper1(head,0);
+    return sortedListToBSTHelper2(&head,0,size-1);
 }
 
 // 279M Perfect Squares
