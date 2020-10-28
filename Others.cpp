@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <stack>
 #include <string>
 #include <queue>
 #include <unordered_map>
@@ -7,9 +8,58 @@
 
 using namespace std;
 
-// Max Tasks to Fit in Time Interval
+// Get String Tokens Split by Delimiter
+void splitStringDelimiter(string& input, char delimiter) {
+    istringstream iss;
+    string token;
+    vector<string> tokens;
+
+    iss.str(input);
+
+    while(getline(iss,token,delimiter)) tokens.push_back(token);
+
+    iss.clear();
+}
+
+// Max Slices to Sort Array of Distinct Integers (Jump Trading)
+int maxSlices(vector<int>& input) {
+    int size=input.size();
+    stack<int> numStack;
+
+    numStack.push(input[0]);
+    
+    for(int i{1}; i<size; ++i) {
+        if(input[i]>numStack.top()) numStack.push(input[i]);
+        else {
+            int temp=numStack.top();
+            numStack.pop();
+            
+            while(numStack.size()>0&&numStack.top()>input[i]) numStack.pop();
+
+            numStack.push(temp);
+        }
+    }
+
+    return numStack.size();
+}
+
+// Max Tasks to Fit in Time Interval (ByteDance)
 int maxTasks(vector<pair<int,int>>& tasks, int start, int end) {
-    return 0;
+    int currStart{start}, count{0};
+    auto cmp=[](pair<int,int> a,pair<int,int> b) {
+        if(a.second==b.second) return a.first>b.first;
+        else return a.second<b.second;
+    };
+    sort(tasks.begin(),tasks.end(),cmp);
+    
+    for(auto& task:tasks) {
+        if(task.first>=currStart&&task.second<=end) {
+            ++count;
+            currStart=task.second;
+        }
+    }
+
+    return count;
 }
 
 // Memory Copy (ByteDance)

@@ -56,6 +56,122 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 179M Largest Number
+string largestNumber(vector<int>& nums) {
+    int size=nums.size();
+    vector<string> numStr;
+    numStr.reserve(size);
+    
+    for(int num:nums) numStr.push_back(to_string(num));
+    
+    sort(numStr.begin(),numStr.end(),[](string& a, string& b){return a+b>b+a;});
+    if(numStr[0]=="0") return "0";
+    
+    ostringstream oss;
+    
+    for(string& str:numStr) oss<<str;
+    
+    return oss.str();
+}
+
+// 768H Max Chunks to Make Sorted II (with Duplicates)
+int maxChunksToSortedII(vector<int>& arr) {
+    int size=arr.size(), temp{0};
+    stack<int> numStack;
+
+    numStack.push(arr[0]);
+
+    for(int i{1}; i<size; ++i) {
+        if(arr[i]>=numStack.top()) numStack.push(arr[i]);
+        else {
+            temp=numStack.top();
+
+            do numStack.pop();
+            while(numStack.size()>0&&temp==numStack.top());
+            
+            while(numStack.size()>0&&numStack.top()>arr[i]) numStack.pop();
+            
+            numStack.push(temp);
+        }
+    }
+
+    return numStack.size();
+}
+
+// 769M Make Chunks to Make Sorted (Distinct)
+int maxChunksToSorted(vector<int>& arr) {
+    int size=arr.size(), temp{0};
+    stack<int> numStack;
+
+    numStack.push(arr[0]);
+
+    for(int i{1}; i<size; ++i) {
+        if(arr[i]>numStack.top()) numStack.push(arr[i]);
+        else {
+            temp=numStack.top();
+            numStack.pop();
+
+            while(numStack.size()>0&&numStack.top()>arr[i]) numStack.pop();
+
+            numStack.push(temp);
+        }
+    }
+
+    return numStack.size();
+}
+
+// 289M Game of Life
+void gameOfLife(vector<vector<int>>& board) {
+    if(board.size()==0) return;
+    int numRow=board.size(), numCol=board[0].size(), currCount{0};
+
+    for(int i{0}; i<numRow; ++i) {
+
+        for(int j{0}; j<numCol; ++j) {
+            if(i>0) {
+                if(board[i-1][j]==1||board[i-1][j]==-1) ++currCount;
+                if(j>0) {
+                    if(board[i-1][j-1]==1||board[i-1][j-1]==-1) ++currCount;
+                }
+                if(j<numCol-1) {
+                    if(board[i-1][j+1]==1||board[i-1][j+1]==-1) ++currCount;
+                }
+            }
+            if(i<numRow-1) {
+                if(board[i+1][j]==1||board[i+1][j]==-1) ++currCount;
+                if(j>0) {
+                    if(board[i+1][j-1]==1||board[i+1][j-1]==-1) ++currCount;
+                }
+                if(j<numCol-1) {
+                    if(board[i+1][j+1]==1||board[i+1][j+1]==-1) ++currCount;
+                }
+            }
+            if(j>0) {
+                if(board[i][j-1]==1||board[i][j-1]==-1) ++currCount;
+            }
+            if(j<numCol-1) {
+                if(board[i][j+1]==1||board[i][j+1]==-1) ++currCount;
+            }
+
+            if(board[i][j]) {
+                if(currCount<2||currCount>3) board[i][j]=-1; 
+            } else {
+                if(currCount==3) board[i][j]=2;
+            }
+
+            currCount=0;
+        }
+    }
+
+    for(int i{0}; i<numRow; ++i) {
+
+        for(int j{0}; j<numCol; ++j) {
+            if(board[i][j]==-1) board[i][j]=0;
+            else if(board[i][j]==2) board[i][j]=1;
+        }
+    }
+}
+
 // 55M Jump Game
 bool canJump(vector<int>& nums) {
     int size=nums.size(), lastPos{nums[size-1]};
@@ -241,7 +357,7 @@ vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
 }
 
 // 98M Validate Binary Search Tree
-bool isValidBSTHelper(TreeNode* curr, int leftBound, int rightBound) {
+bool isValidBSTHelper(TreeNode* curr, long leftBound, long rightBound) {
     if(curr==nullptr) return true;
     else if(curr->val>leftBound&&curr->val<rightBound) 
         return isValidBSTHelper(curr->left,leftBound,curr->val)&&isValidBSTHelper(curr->right,curr->val,rightBound);
@@ -249,7 +365,7 @@ bool isValidBSTHelper(TreeNode* curr, int leftBound, int rightBound) {
 }
 
 bool isValidBST(TreeNode* root) {
-    return isValidBSTHelper(root,long(INT_MIN)-1,long(INT_MAX)+1);
+    return isValidBSTHelper(root,-2147483649,2147483648);
 }
 
 // 287M Find the Duplicate Number

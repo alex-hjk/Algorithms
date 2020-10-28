@@ -114,9 +114,13 @@ double myPow(double x, int n);
 bool searchMatrix(std::vector<std::vector<int>>& matrix, int target);
 int canCompleteCircuit(std::vector<int>& gas, std::vector<int>& cost);
 ListNode* removeNthFromEnd(ListNode* head, int n);
+void gameOfLife(std::vector<std::vector<int>>& board);
+int maxChunksToSorted(std::vector<int>& arr);
+std::string largestNumber(std::vector<int>& nums);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);
 int trap(std::vector<int>& height);
+int maxChunksToSortedII(std::vector<int>& arr);
 
 #endif 
