@@ -117,6 +117,7 @@ ListNode* removeNthFromEnd(ListNode* head, int n);
 void gameOfLife(std::vector<std::vector<int>>& board);
 int maxChunksToSorted(std::vector<int>& arr);
 std::string largestNumber(std::vector<int>& nums);
+int longestSubstring(std::string s, int k);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);

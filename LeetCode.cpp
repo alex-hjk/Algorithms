@@ -56,6 +56,42 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 395M Longest Substring with At Least K Repeating Characters
+int longestSubstring(string s, int k) {
+    unordered_set<char> uniqueChars;
+    for(char c:s) uniqueChars.insert(c);
+    int maxUnique=uniqueChars.size(), size=s.size(), maxLength{0}, start, end, numUnique, numAtLeastK, curr;
+    int charCounts[26]={0};
+
+    for(int i{1}; i<=maxUnique; ++i) {
+        start=0;
+        end=0;
+        numUnique=0;
+        numAtLeastK=0;
+        memset(charCounts,0,sizeof(charCounts));
+
+        while(end<size) {
+            if(numUnique<=i) {
+                curr=s[end]-'a';
+                if(charCounts[curr]==0) ++numUnique;
+                ++charCounts[curr];
+                if(charCounts[curr]==k) ++numAtLeastK;
+                ++end;
+            } else {
+                curr=s[start]-'a';
+                if(charCounts[curr]==k) --numAtLeastK;
+                --charCounts[curr];
+                if(charCounts[curr]==0) --numUnique;
+                ++start;
+            }
+
+            if(numUnique==i&&numAtLeastK==i) maxLength=max(maxLength,end-start);
+        }
+    }
+
+    return maxLength;
+}
+
 // 179M Largest Number
 string largestNumber(vector<int>& nums) {
     int size=nums.size();
