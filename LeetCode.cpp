@@ -56,6 +56,123 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 207M Course Schedule
+void canFinishHelper(vector<int>& visitStatus, vector<vector<int>>& coursePrereqs, int currCourse, bool& hasCycle) {
+    visitStatus[currCourse]=1;
+
+    for(int course:coursePrereqs[currCourse]) {
+        if(hasCycle) break;
+
+        if(visitStatus[course]==2) continue;
+        else if(visitStatus[course]==1) {
+            hasCycle=true;
+            break;
+        } else canFinishHelper(visitStatus,coursePrereqs,course,hasCycle);
+    }
+
+    visitStatus[currCourse]=2;
+}
+
+bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+    vector<vector<int>> coursePrereqs(numCourses, vector<int>{});
+    vector<int> visitStatus(numCourses,0), currCourses;
+    bool hasCycle{false};
+
+    for(auto prereq:prerequisites) coursePrereqs[prereq[0]].push_back(prereq[1]);
+
+    for(int i{0}; i<numCourses; ++i) {
+        if(hasCycle) break;
+
+        if(visitStatus[i]==2) continue;
+        else canFinishHelper(visitStatus,coursePrereqs,i,hasCycle);
+    }
+
+    return !hasCycle;
+}
+
+// 102M Binary Tree Level Order Traversal
+vector<vector<int>> levelOrder(TreeNode* root) {
+    if(root==nullptr) return {};
+    vector<vector<int>> result;
+    queue<TreeNode*> nodeQueue;
+    int currNum;
+
+    nodeQueue.push(root);
+    
+    while(!nodeQueue.empty()) {
+        currNum=nodeQueue.size();
+        vector<int> currNodes;
+        currNodes.reserve(currNum);
+
+        while(currNum>0) {
+            currNodes.push_back(nodeQueue.front()->val);
+            if(nodeQueue.front()->left!=nullptr) nodeQueue.push(nodeQueue.front()->left);
+            if(nodeQueue.front()->right!=nullptr) nodeQueue.push(nodeQueue.front()->right);
+            nodeQueue.pop();
+            --currNum;
+        }
+
+        result.push_back(move(currNodes));
+    }
+
+    return result;
+}
+
+// 8M String to Integer (atoi)
+int myAtoi(string s) {
+    s.erase(0,s.find_first_not_of(' '));
+    if(s.size()==0) return 0;
+
+    int size=s.size(), startIdx{0};
+    long result{0};
+    bool isPos{true};
+
+    if(s[0]=='-'||s[0]=='+') {
+        if(s[0]=='-') isPos=false;
+        startIdx=1;
+    }
+
+    for(int i{startIdx}; i<size; ++i) {
+        if(s[i]>='0'&&s[i]<='9') {
+            result=result*10+(s[i]-'0');
+            if(isPos&&result>long(INT_MAX)) {
+                return INT_MAX;
+            } else if(!isPos&&(-result)<long(INT_MIN)) {
+                return INT_MIN;
+            }
+        } else break;
+    }
+    
+    if(!isPos) result=-result;
+
+    return int(result);
+}
+
+// 340H Longest Substring with At Most K Distinct Characters
+int lengthOfLongestSubstringKDistinct(string s, int k) {
+    if(s.size()==0) return 0;
+    int size=s.size(), maxLength{0}, start{0}, end{0}, numUnique{0}, curr;
+    unordered_map<char,int> charCounts;
+
+    while(end<size) {
+        if(numUnique<=k) {
+            curr=s[end]-'a';
+            if(charCounts.find(curr)==charCounts.end()||charCounts[curr]==0) ++numUnique;
+            ++charCounts[curr];
+            ++end;
+        } else {
+            curr=s[start]-'a';
+            --charCounts[curr];
+            if(charCounts[curr]==0) --numUnique;
+            ++start;
+        }
+
+        if(numUnique<=k) maxLength=max(maxLength, start-end);
+    }
+
+    return maxLength;
+}
+
 // 395M Longest Substring with At Least K Repeating Characters
 int longestSubstring(string s, int k) {
     unordered_set<char> uniqueChars;

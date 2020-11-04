@@ -118,10 +118,14 @@ void gameOfLife(std::vector<std::vector<int>>& board);
 int maxChunksToSorted(std::vector<int>& arr);
 std::string largestNumber(std::vector<int>& nums);
 int longestSubstring(std::string s, int k);
+int myAtoi(std::string s);
+std::vector<std::vector<int>> levelOrder(TreeNode* root);
+bool canFinish(int numCourses, std::vector<std::vector<int>>& prerequisites);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);
 int trap(std::vector<int>& height);
 int maxChunksToSortedII(std::vector<int>& arr);
+int lengthOfLongestSubstringKDistinct(std::string s, int k);
 
 #endif 
