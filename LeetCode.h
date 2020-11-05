@@ -121,6 +121,7 @@ int longestSubstring(std::string s, int k);
 int myAtoi(std::string s);
 std::vector<std::vector<int>> levelOrder(TreeNode* root);
 bool canFinish(int numCourses, std::vector<std::vector<int>>& prerequisites);
+int uniquePaths(int m, int n);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);

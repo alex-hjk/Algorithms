@@ -56,6 +56,18 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 62M Unique Paths
+int uniquePaths(int m, int n) {
+    vector<int> rowNumWays(m,1);
+
+    for(int i{1}; i<n; ++i) {
+
+        for(int j{1}; j<m; ++j) rowNumWays[j]+=rowNumWays[j-1];
+    }
+
+    return rowNumWays[m-1];
+}
+
 // 207M Course Schedule
 void canFinishHelper(vector<int>& visitStatus, vector<vector<int>>& coursePrereqs, int currCourse, bool& hasCycle) {
     visitStatus[currCourse]=1;
