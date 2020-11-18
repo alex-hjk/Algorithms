@@ -122,6 +122,10 @@ int myAtoi(std::string s);
 std::vector<std::vector<int>> levelOrder(TreeNode* root);
 bool canFinish(int numCourses, std::vector<std::vector<int>>& prerequisites);
 int uniquePaths(int m, int n);
+void solve(std::vector<std::vector<char>>& board);
+void setZeroes(std::vector<std::vector<int>>& matrix);
+int findPeakElement(std::vector<int>& nums);
+bool canTransform(std::string start, std::string end);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);

@@ -54,7 +54,103 @@ public:
     DoubleLinkedNode(): next(nullptr), prev(nullptr), key(0), val(0) {}
     DoubleLinkedNode(int key, int val): next(nullptr), prev(nullptr), key(key), val(val) {}
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
-};
+};  
+
+// 777M Swap Adjacent in LR String
+bool canTransform(string start, string end) {
+    return true;
+}
+
+// 162M Find Peak Element
+int findPeakElement(vector<int>& nums) {
+    int leftIdx{0}, rightIdx=nums.size(), midIdx;
+
+    while(rightIdx>leftIdx) {
+        midIdx=leftIdx+(rightIdx-leftIdx)/2;
+        if(nums[midIdx]>nums[midIdx+1]) rightIdx=midIdx;
+        else leftIdx=midIdx+1;
+    }
+
+    return leftIdx;
+}
+
+// 73M Set Matrix Zeroes
+void setZeroes(vector<vector<int>>& matrix) {
+    int numRow=matrix.size(), numCol=matrix[0].size(), colMarker{1};
+
+    if(matrix[0][0]==0) colMarker=0;
+
+    for(int i{1}; i<numCol; ++i) {
+        if(matrix[0][i]==0) matrix[0][0]=0;
+    }
+
+    for(int i{1}; i<numRow; ++i) {
+        if(matrix[i][0]==0) colMarker=0;
+    }
+
+    for(int i{1}; i<numRow; ++i) {
+
+        for(int j{1}; j<numCol; ++j) {
+            if(matrix[i][j]==0) {
+                matrix[i][0]=0;
+                matrix[0][j]=0;
+            }
+        }
+    }
+
+    for(int i{1}; i<numCol; ++i) {
+        if(matrix[0][i]==0) {
+            
+            for(int j{1}; j<numRow; ++j) matrix[j][i]=0;
+        }
+    }
+
+    for(int i{1}; i<numRow; ++i) {
+        if(matrix[i][0]==0) {
+
+            for(int j{1}; j<numCol; ++j) matrix[i][j]=0;
+        }
+    }
+
+    if(matrix[0][0]==0) {
+        
+        for(int i{0}; i<numCol; ++i) matrix[0][i]=0;
+    }
+
+    if(colMarker==0) {
+
+        for(int i{0}; i<numRow; ++i) matrix[i][0]=0;
+    }
+}
+
+// 130M Surrounded Regions
+void solveHelper(vector<vector<char>>& board, int row, int col, int& numRow, int& numCol) {
+    if(board[row][col]!='O') return;
+    board[row][col]='Y';
+
+    if(row+1<numRow) solveHelper(board,row+1,col,numRow,numCol);
+    if(row-1>=0) solveHelper(board,row-1,col,numRow,numCol);
+    if(col+1<numCol) solveHelper(board,row,col+1,numRow,numCol);
+    if(col-1>=0) solveHelper(board,row,col-1,numRow,numCol);
+}
+
+void solve(vector<vector<char>>& board) {
+    if(board.size()<2||board[0].size()<2) return;
+    int numRow=board.size(), numCol=board[0].size();
+
+    for(int i{0}; i<numCol; ++i) solveHelper(board,0,i,numRow,numCol);
+    for(int i{1}; i<numRow; ++i) solveHelper(board,i,numCol-1,numRow,numCol);
+    for(int i{numCol-1}; i>=0; --i) solveHelper(board,numRow-1,i,numRow,numCol);
+    for(int i{numRow-1}; i>0; --i) solveHelper(board,i,0,numRow,numCol);
+
+    for(int i{0}; i<numRow; ++i) {
+        
+        for(int j{0}; j<numCol; ++j) {
+            if(board[i][j]=='Y') board[i][j]='O';
+            else if(board[i][j]=='O') board[i][j]='X';
+        }
+    }
+}
 
 // 62M Unique Paths
 int uniquePaths(int m, int n) {
