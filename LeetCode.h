@@ -59,6 +59,7 @@ int minDepth(TreeNode* root);
 std::string longestCommonPrefix(std::vector<std::string>& strs);
 bool isPalindrome(ListNode* head);
 int climbStairs(int n);
+int rob1(std::vector<int>& nums);
 
 // Medium
 int maximalSquare(std::vector<std::vector<char>>& matrix);
@@ -125,7 +126,10 @@ int uniquePaths(int m, int n);
 void solve(std::vector<std::vector<char>>& board);
 void setZeroes(std::vector<std::vector<int>>& matrix);
 int findPeakElement(std::vector<int>& nums);
+int eraseOverlapIntervals(std::vector<std::vector<int>>& intervals);
 bool canTransform(std::string start, std::string end);
+int rob2(std::vector<int>& nums);
+int rob3(TreeNode* root);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);

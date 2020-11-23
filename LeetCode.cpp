@@ -54,11 +54,118 @@ public:
     DoubleLinkedNode(): next(nullptr), prev(nullptr), key(0), val(0) {}
     DoubleLinkedNode(int key, int val): next(nullptr), prev(nullptr), key(key), val(val) {}
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
-};  
+};
+
+// 337M House Robber III
+pair<int,int> rob3Helper(TreeNode* currNode) {
+    if(currNode==nullptr) return {0,0};
+
+    pair<int,int> leftNode=rob3Helper(currNode->left);
+    pair<int,int> rightNode=rob3Helper(currNode->right);
+
+    int prevMax=leftNode.first+rightNode.first;
+    int currMax=max(currNode->val+leftNode.second+rightNode.second,prevMax);
+
+    return {currMax,prevMax};
+}
+
+int rob3(TreeNode* root) {
+    pair<int,int> result=rob3Helper(root);
+
+    return result.first;
+}
+
+// 213M House Robber II
+int rob2Helper(vector<int>& nums, int startIdx, int endIdx) {
+    int prevMax{0}, currMax{0}, temp, size=nums.size();
+
+    for(int i{startIdx}; i<endIdx; ++i) {
+        temp=currMax;
+        currMax=max(currMax,prevMax+nums[i]);
+        prevMax=temp;
+    }
+
+    return currMax;
+}
+
+int rob2(vector<int>& nums) {
+    int size=nums.size(), maxSum{0};
+
+    if(size==1) return nums[0];
+    else if(size==2) return max(nums[0],nums[1]);
+    else if(size==3) return max({nums[0],nums[1],nums[2]});
+
+    return max(rob2Helper(nums,0,size-1),rob2Helper(nums,1,size));
+}
+
+// 198E House Robber
+int rob1(vector<int>& nums) {
+    int size=nums.size();
+    
+    if(size==0) return 0;
+    else if(size==1) return nums[0];
+    else nums[1]=max(nums[1],nums[0]);
+
+    for(int i{2}; i<size; ++i) nums[i]=max(nums[i-1],nums[i]+nums[i-2]);
+
+    return nums[size-1];
+}
 
 // 777M Swap Adjacent in LR String
 bool canTransform(string start, string end) {
-    return true;
+    int strLen=start.size(), startIdx{0}, endIdx{0}, startX{0}, endX{0};
+
+    while(startIdx<strLen&&endIdx<strLen) {
+
+        while(start[startIdx]=='X'&&startIdx<strLen) {
+            ++startX;
+            ++startIdx;
+        }
+
+        while(end[endIdx]=='X'&&endIdx<strLen) {
+            ++endX;
+            ++endIdx;
+        }
+
+        if(startIdx==strLen||endIdx==strLen) break;
+
+        if(start[startIdx]!=end[endIdx]) return false;
+        else if(start[startIdx]=='L'&&startIdx<endIdx) return false;
+        else if(start[startIdx]=='R'&&startIdx>endIdx) return false;
+
+        ++startIdx;
+        ++endIdx;
+    }
+
+    while(start[startIdx]=='X'&&startIdx<strLen) {
+        ++startX;
+        ++startIdx;
+    }
+
+    while(end[endIdx]=='X'&&endIdx<strLen) {
+        ++endX;
+        ++endIdx;
+    }
+
+    return startIdx==endIdx&&startX==endX;
+}
+
+// 435M Non-overlapping Intervals
+int eraseOverlapIntervals(vector<vector<int>>& intervals) {
+    if(intervals.size()==0) return 0;
+    int latestStart{INT_MIN}, count{0};
+
+    sort(intervals.begin(),intervals.end(),[](vector<int>& a, vector<int>& b){
+        if(a[1]==b[1]) return a[0]>b[0];
+        return a[1]<b[1];
+    });
+
+    for(auto& item:intervals) {
+        if(item[0]>=latestStart) latestStart=item[1];
+        else ++count;
+    }
+
+    return count;
 }
 
 // 162M Find Peak Element
