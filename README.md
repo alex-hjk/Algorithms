@@ -39,7 +39,7 @@ This repository contains my C++ solutions to algorithm questions from LeetCode, 
 
 [https://leetcode.com/problems/non-overlapping-intervals/](https://leetcode.com/problems/non-overlapping-intervals/) (done)
 
-[https://leetcode.com/problems/video-stitching/](https://leetcode.com/problems/video-stitching/). 
+[https://leetcode.com/problems/video-stitching/](https://leetcode.com/problems/video-stitching/) (done)
 
 [https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/)
 
