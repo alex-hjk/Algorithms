@@ -56,6 +56,18 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 598E Range Addition II
+int maxCount(int m, int n, vector<vector<int>>& ops) {
+    int row{m}, col{n};
+    
+    for(vector<int>& op:ops) {
+        row=min(row,op[0]);
+        col=min(col,op[1]);
+    }
+    
+    return row*col;
+}
+
 // 252E Meetings Rooms
 bool canAttendMeetings(vector<vector<int>>& intervals) {
     int currEnd{0};

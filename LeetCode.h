@@ -61,6 +61,7 @@ bool isPalindrome(ListNode* head);
 int climbStairs(int n);
 int rob1(std::vector<int>& nums);
 bool canAttendMeetings(std::vector<std::vector<int>>& intervals);
+int maxCount(int m, int n, std::vector<std::vector<int>>& ops);
 
 // Medium
 int maximalSquare(std::vector<std::vector<char>>& matrix);
