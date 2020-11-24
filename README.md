@@ -1,7 +1,7 @@
 # Algorithms
 This repository contains my C++ solutions to algorithm questions from LeetCode, HackerRank, previous coding interviews and other sources.
 
-## Questions take from
+## Questions
 
 ### Using a solution to a simpler problem; a new constraint added to simple problem:
 
