@@ -5,11 +5,11 @@ This repository contains my C++ solutions to algorithm questions from LeetCode, 
 
 ### Using a solution to a simpler problem; a new constraint added to simple problem:
 
-[https://leetcode.com/problems/house-robber/](https://leetcode.com/problems/house-robber/)
+[https://leetcode.com/problems/house-robber/](https://leetcode.com/problems/house-robber/) (done)
 
-[https://leetcode.com/problems/house-robber-ii/](https://leetcode.com/problems/house-robber-ii/)
+[https://leetcode.com/problems/house-robber-ii/](https://leetcode.com/problems/house-robber-ii/) (done)
 
-[https://leetcode.com/problems/house-robber-iii/](https://leetcode.com/problems/house-robber-iii/)
+[https://leetcode.com/problems/house-robber-iii/](https://leetcode.com/problems/house-robber-iii/) (done)
 
 ### Two pointer sliding window:
 
@@ -37,7 +37,7 @@ This repository contains my C++ solutions to algorithm questions from LeetCode, 
 
 ### Greedy non-overlapping activities:
 
-[https://leetcode.com/problems/non-overlapping-intervals/](https://leetcode.com/problems/non-overlapping-intervals/)
+[https://leetcode.com/problems/non-overlapping-intervals/](https://leetcode.com/problems/non-overlapping-intervals/) (done)
 
 [https://leetcode.com/problems/video-stitching/](https://leetcode.com/problems/video-stitching/). 
 
@@ -53,7 +53,7 @@ This repository contains my C++ solutions to algorithm questions from LeetCode, 
 
 [https://leetcode.com/problems/range-addition-ii/](https://leetcode.com/problems/range-addition-ii/)
 
-[https://leetcode.com/problems/range-addition/](https://leetcode.com/problems/range-addition/)
+[https://leetcode.com/problems/range-addition/](https://leetcode.com/problems/range-addition/) (done)
 
 [https://leetcode.com/problems/range-sum-query-immutable/](https://leetcode.com/problems/range-sum-query-immutable/)
 
