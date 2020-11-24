@@ -43,7 +43,7 @@ This repository contains my C++ solutions to algorithm questions from LeetCode, 
 
 [https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/)
 
-[https://leetcode.com/problems/meeting-rooms/](https://leetcode.com/problems/meeting-rooms/)
+[https://leetcode.com/problems/meeting-rooms/](https://leetcode.com/problems/meeting-rooms/) (done)
 
 [https://leetcode.com/problems/meeting-rooms-ii/](https://leetcode.com/problems/meeting-rooms-ii/) (done)
 
