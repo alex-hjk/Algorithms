@@ -60,6 +60,7 @@ std::string longestCommonPrefix(std::vector<std::string>& strs);
 bool isPalindrome(ListNode* head);
 int climbStairs(int n);
 int rob1(std::vector<int>& nums);
+bool canAttendMeetings(std::vector<std::vector<int>>& intervals);
 
 // Medium
 int maximalSquare(std::vector<std::vector<char>>& matrix);
@@ -130,6 +131,8 @@ int eraseOverlapIntervals(std::vector<std::vector<int>>& intervals);
 bool canTransform(std::string start, std::string end);
 int rob2(std::vector<int>& nums);
 int rob3(TreeNode* root);
+std::vector<int> getModifiedArray(int length, std::vector<std::vector<int>>& updates);
+int videoStitching(std::vector<std::vector<int>>& clips, int T);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);

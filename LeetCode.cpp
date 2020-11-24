@@ -56,6 +56,66 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 252E Meetings Rooms
+bool canAttendMeetings(vector<vector<int>>& intervals) {
+    int currEnd{0};
+    sort(intervals.begin(),intervals.end(),[](vector<int>& a, vector<int>& b){
+        return a[0]<b[0];
+    });
+    
+    for(vector<int>& interval:intervals) {
+        if(interval[0]>=currEnd) currEnd=interval[1];
+        else return false;
+    }
+    
+    return true;
+}
+
+// 1024M Video Stitching
+int videoStitching(vector<vector<int>>& clips, int T) {
+    if(T==0) return 0;
+    int prevEnd{-1}, newEnd{0}, count{0};
+
+    sort(clips.begin(),clips.end(),[](vector<int>& a, vector<int>& b){
+        if(a[0]==b[0]) return a[1]>b[1];
+        return a[0]<b[0];
+    });
+
+    for(vector<int>& clip:clips) {
+        if(clip[0]==clip[1]) continue;
+        if(clip[0]<=newEnd&&clip[1]>newEnd) {
+            if(clip[0]>prevEnd) {
+                ++count;
+                prevEnd=newEnd;
+                newEnd=clip[1];
+            } else {
+                newEnd=clip[1];
+            }
+        }
+        if(newEnd>=T) break;
+    }
+
+    if(newEnd<T) return -1;
+
+    return count;
+}
+
+// 370M Range Addition
+vector<int> getModifiedArray(int length, vector<vector<int>>& updates) {
+    vector<int> result(length+1,0);
+
+    for(vector<int>& update:updates) {
+        result[update[0]]+=update[2];
+        result[update[1]+1]-=update[2];
+    }
+
+    for(int i{1}; i<length+1; ++i) result[i]+=result[i-1];
+
+    result.pop_back();
+
+    return result;
+}
+
 // 337M House Robber III
 pair<int,int> rob3Helper(TreeNode* currNode) {
     if(currNode==nullptr) return {0,0};
