@@ -134,6 +134,11 @@ int rob2(std::vector<int>& nums);
 int rob3(TreeNode* root);
 std::vector<int> getModifiedArray(int length, std::vector<std::vector<int>>& updates);
 int videoStitching(std::vector<std::vector<int>>& clips, int T);
+int characterReplacement(std::string s, int k);
+int findMaxConsecutiveOnes(std::vector<int>& nums);
+int lengthOfLongestSubstringTwoDistinct(std::string s);
+int longestOnes(std::vector<int>& A, int K);
+int minSubArrayLen(int s, std::vector<int>& nums);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);

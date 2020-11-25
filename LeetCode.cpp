@@ -56,6 +56,109 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 209M Minimum Size Subarray Sum
+int minSubArrayLen(int s, vector<int>& nums) {
+    int size=nums.size(), start{0}, end{0}, minLen{INT_MAX}, currSum{0};
+    
+    while(end<size) {
+        currSum+=nums[end];
+        
+        while(currSum-nums[start]>=s) {
+            currSum-=nums[start];
+            ++start;
+        }
+        
+        ++end;
+        if(currSum>=s) minLen=min(minLen,end-start);
+    }
+    
+    return minLen==INT_MAX?0:minLen;
+}
+
+// 1004M Max Consecutive Ones III
+int longestOnes(vector<int>& A, int K) {
+    int size=A.size(), start{0}, end{0}, maxLen{0}, numFlipped{0};
+
+    while(end<size) {
+        if(!A[end]) {
+            ++numFlipped;
+            while(numFlipped>K) {
+                if(!A[start]) --numFlipped;
+                ++start;
+            }
+        }
+        ++end;
+
+        maxLen=max(maxLen,end-start);
+    }
+
+    return maxLen;
+}
+
+// 159M Longest Substring with At Most Two Distinct Characters
+int lengthOfLongestSubstringTwoDistinct(string s) {
+    int size=s.size(), start{0}, end{0}, maxLen{0}, numUnique{0};
+    unordered_map<char,int> charCount;
+
+    while(end<size) {
+        ++charCount[s[end]];
+        if(charCount[s[end]]==1) ++numUnique;
+        ++end;
+
+        while(numUnique>2) {
+            --charCount[s[start]];
+            if(charCount[s[start]]==0) --numUnique;
+            ++start;
+        }
+
+        maxLen=max(maxLen,end-start);
+    }
+
+    return maxLen;
+}
+
+// 487M Max Consecutive Ones II
+int findMaxConsecutiveOnes(vector<int>& nums) {
+    int size=nums.size(), start{0}, end{0}, maxConsec{1}, flip{-1};
+
+    while(end<size) {
+        if(!nums[end]) {
+            if(flip>=start) {
+                start=flip+1;
+            }
+            flip=end;
+        }
+        ++end;
+
+        maxConsec=max(maxConsec,end-start);
+    }
+
+    return maxConsec;
+}
+
+// 424M Longest Repeating Character Replacement
+int characterReplacement(string s, int k) {
+    if(s.size()==0) return 0;
+    int size=s.size(), start{0}, end{0}, maxLen{1}, maxChar{1}, curr;
+    int charCount[26]={0};
+
+    while(end<size) {
+        curr=s[end]-'A',
+        ++charCount[curr];
+        maxChar=max(maxChar,charCount[curr]);
+        ++end;
+
+        while(end-start-maxChar>k) {
+            --charCount[s[start]-'A'];
+            ++start;
+        }
+
+        maxLen=max(maxLen,end-start);
+    }
+
+    return maxLen;
+}
+
 // 598E Range Addition II
 int maxCount(int m, int n, vector<vector<int>>& ops) {
     int row{m}, col{n};
@@ -1572,20 +1675,19 @@ int numDecodings(string s) {
 // 3M Longest Substring without Repeating Characters
 int lengthOfLongestSubstring(string s) {
     unordered_map<char,int> charIndex;
-    int size=s.size(), startIdx{0}, maxLen{0}, currLen{0};
+    int size=s.size(), start{0}, end{0}, maxLen{1};
 
-    for(int i{0}; i<size; ++i) {
-        if(charIndex.find(s[i])==charIndex.end()) ++currLen;
-        else if(charIndex[s[i]]<startIdx) ++currLen;
-        else {
-            maxLen=max(maxLen,currLen);
-            startIdx=charIndex[s[i]]+1;
-            currLen=i-startIdx+1;
+    while(end<size) {
+        if(charIndex.find(s[end])!=charIndex.end()) {
+            if(charIndex[s[end]]>=start) {
+                start=charIndex[s[end]]+1;
+            }
         }
-        charIndex[s[i]]=i;
-    }
+        charIndex[s[end]]=end;
+        ++end;
 
-    maxLen=max(maxLen,currLen);
+        maxLen=max(maxLen,end-start);
+    }
 
     return maxLen;
 }
