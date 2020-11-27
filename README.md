@@ -27,13 +27,13 @@ This repository contains my C++ solutions to algorithm questions from LeetCode, 
 
 [https://leetcode.com/problems/minimum-size-subarray-sum/](https://leetcode.com/problems/minimum-size-subarray-sum/) (done)
 
-[https://leetcode.com/problems/subarrays-with-k-different-integers/](https://leetcode.com/problems/subarrays-with-k-different-integers/)
+[https://leetcode.com/problems/subarrays-with-k-different-integers/](https://leetcode.com/problems/subarrays-with-k-different-integers/) (done)
 
 [https://leetcode.com/problems/minimum-window-substring/](https://leetcode.com/problems/minimum-window-substring/)
 
-[https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/](https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/)
+[https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/](https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/) (done)
 
-[https://leetcode.com/problems/degree-of-an-array/](https://leetcode.com/problems/degree-of-an-array/) : But for this problem, sliding window is an overhead. Can be done in a single pass with two hashmaps.
+[https://leetcode.com/problems/degree-of-an-array/](https://leetcode.com/problems/degree-of-an-array/) (done)
 
 ### Greedy non-overlapping activities:
 
@@ -41,7 +41,7 @@ This repository contains my C++ solutions to algorithm questions from LeetCode, 
 
 [https://leetcode.com/problems/video-stitching/](https://leetcode.com/problems/video-stitching/) (done)
 
-[https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/)
+[https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/) (done)
 
 [https://leetcode.com/problems/meeting-rooms/](https://leetcode.com/problems/meeting-rooms/) (done)
 

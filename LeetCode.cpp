@@ -56,6 +56,105 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 452M Minimum Number of Arrows to Burst Balloons
+int findMinArrowShots(vector<vector<int>>& points) {
+    if(points.size()==0) return 0;
+    
+    sort(points.begin(),points.end(),[](vector<int> a,vector<int> b){
+        return a[1]<b[1];
+    });
+
+    int currEnd{points[0][1]}, minCount{1};
+
+    for(auto& point:points) {
+        if(point[1]>currEnd&&point[0]>currEnd) {
+            ++minCount;
+            currEnd=point[1];
+        }
+    }
+
+    return minCount;
+}
+
+// 80M Remove Duplicates from Sorted Array II
+int removeDuplicates(vector<int>& nums) {
+    if(nums.size()==0) return 0;
+    int size=nums.size(), swapPtr{1}, currCount{1};
+
+    for(int i{1}; i<size; ++i) {
+        if(nums[i]==nums[i-1]) ++currCount;
+        else currCount=1;
+
+        if(currCount<=2) {
+            nums[swapPtr]=nums[i];
+            ++swapPtr;
+        }
+    }
+
+    return swapPtr;
+}
+
+// 697E Degree of an Array
+int findShortestSubArray(vector<int>& nums) {
+    unordered_map<int,int> numCount, numLeft, numRight;
+    int maxCount{1}, minLen{INT_MAX}, size=nums.size(), curr;
+    
+    for(int i{0}; i<size; ++i) {
+        curr=nums[i];
+        ++numCount[curr];
+        if(numCount[curr]==1) {
+            numLeft[curr]=i;
+            numRight[curr]=i;
+        }
+        else numRight[curr]=i;
+        
+        if(numCount[curr]==maxCount) {
+            minLen=min(minLen,numRight[curr]-numLeft[curr]+1);
+        } else if(numCount[curr]>maxCount) {
+            maxCount=numCount[curr];
+            minLen=numRight[curr]-numLeft[curr]+1;
+        }
+    }
+    
+    return minLen;
+}
+
+// 992H Subarrays with K Different Integers
+int subarraysWithKDistinct(vector<int>& A, int K) {
+    int size=A.size(), start{0}, end{0}, numUnique{0}, count{0}, tempStart;
+    unordered_map<int,int> numCount, tempCount;
+
+    while(end<size) {
+        ++numCount[A[end]];
+        if(numCount[A[end]]==1) ++numUnique;
+        ++end;
+
+        if(numUnique==K) {
+            tempStart=start;
+
+            while(numUnique==K) {
+                ++count;
+                --numCount[A[tempStart]];
+                ++tempCount[A[tempStart]];
+                if(numCount[A[tempStart]]==0) {
+                    --numUnique;
+                    if(end<size&&A[tempStart]!=A[end]) numCount.erase(A[tempStart]);
+                }
+                ++tempStart;
+            }
+
+            if(end<size&&numCount.find(A[end])!=numCount.end()) {
+                for(auto item:tempCount) numCount[item.first]+=item.second;
+                ++numUnique;
+            } else start=tempStart;
+
+            tempCount.clear();
+        }
+    }
+
+    return count;
+}
+
 // 209M Minimum Size Subarray Sum
 int minSubArrayLen(int s, vector<int>& nums) {
     int size=nums.size(), start{0}, end{0}, minLen{INT_MAX}, currSum{0};

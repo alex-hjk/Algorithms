@@ -62,6 +62,7 @@ int climbStairs(int n);
 int rob1(std::vector<int>& nums);
 bool canAttendMeetings(std::vector<std::vector<int>>& intervals);
 int maxCount(int m, int n, std::vector<std::vector<int>>& ops);
+int findShortestSubArray(std::vector<int>& nums);
 
 // Medium
 int maximalSquare(std::vector<std::vector<char>>& matrix);
@@ -139,11 +140,14 @@ int findMaxConsecutiveOnes(std::vector<int>& nums);
 int lengthOfLongestSubstringTwoDistinct(std::string s);
 int longestOnes(std::vector<int>& A, int K);
 int minSubArrayLen(int s, std::vector<int>& nums);
+int removeDuplicates(std::vector<int>& nums);
+int findMinArrowShots(std::vector<std::vector<int>>& points);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);
 int trap(std::vector<int>& height);
 int maxChunksToSortedII(std::vector<int>& arr);
 int lengthOfLongestSubstringKDistinct(std::string s, int k);
+int subarraysWithKDistinct(std::vector<int>& A, int K);
 
 #endif 
