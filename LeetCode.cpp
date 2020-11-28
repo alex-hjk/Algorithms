@@ -56,6 +56,38 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 76H Minimum Window Substring
+string minWindow(string s, string t) {
+    unordered_map<char,int> reqCharCount;
+    vector<pair<char,int>> validCharIdx;
+    
+    int size=s.size(), start{0}, validCharCount{0}, minLen{INT_MAX}, minStart{0}, currMin;
+    
+    for(char& c:t) ++reqCharCount[c];
+    for(int i{0}; i<size; ++i) if(reqCharCount.find(s[i])!=reqCharCount.end()) validCharIdx.push_back({s[i],i});
+    
+    validCharCount=reqCharCount.size();
+    size=validCharIdx.size();
+        
+    for(int end{0}; end<size; ++end) {
+        --reqCharCount[validCharIdx[end].first];
+        if(reqCharCount[validCharIdx[end].first]==0) --validCharCount;
+
+        while(validCharCount==0) {
+            currMin=minLen;
+            minLen=min(minLen,validCharIdx[end].second-validCharIdx[start].second+1);
+            if(minLen<currMin) minStart=start;
+            
+            if(reqCharCount[validCharIdx[start].first]<0) {
+                ++reqCharCount[validCharIdx[start].first];
+                ++start;
+            } else break;
+        }
+    }
+
+    return minLen==INT_MAX?"":s.substr(validCharIdx[minStart].second,minLen);
+}
+
 // 452M Minimum Number of Arrows to Burst Balloons
 int findMinArrowShots(vector<vector<int>>& points) {
     if(points.size()==0) return 0;

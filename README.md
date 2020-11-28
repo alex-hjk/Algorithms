@@ -29,7 +29,7 @@ This repository contains my C++ solutions to algorithm questions from LeetCode, 
 
 [https://leetcode.com/problems/subarrays-with-k-different-integers/](https://leetcode.com/problems/subarrays-with-k-different-integers/) (done)
 
-[https://leetcode.com/problems/minimum-window-substring/](https://leetcode.com/problems/minimum-window-substring/)
+[https://leetcode.com/problems/minimum-window-substring/](https://leetcode.com/problems/minimum-window-substring/) (done)
 
 [https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/](https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/) (done)
 
@@ -65,11 +65,11 @@ This repository contains my C++ solutions to algorithm questions from LeetCode, 
 
 ### DFS and BFS; finding cycle, connected components:
 
-[https://leetcode.com/problems/number-of-islands/](https://leetcode.com/problems/number-of-islands/)
+[https://leetcode.com/problems/number-of-islands/](https://leetcode.com/problems/number-of-islands/) (done)
 
 [https://leetcode.com/problems/graph-valid-tree/](https://leetcode.com/problems/graph-valid-tree/)
 
-[https://leetcode.com/problems/course-schedule/](https://leetcode.com/problems/course-schedule/)
+[https://leetcode.com/problems/course-schedule/](https://leetcode.com/problems/course-schedule/) (done)
 
 To find cycle,
 
@@ -93,7 +93,7 @@ If the current node has an edge to second state, then it’s a cycle. Having an 
 
 Very good problem for applying union find solution. Standard DFS solution can also be used.
 
-[https://leetcode.com/problems/course-schedule-ii/](https://leetcode.com/problems/course-schedule-ii/)
+[https://leetcode.com/problems/course-schedule-ii/](https://leetcode.com/problems/course-schedule-ii/) (done)
 
 [https://leetcode.com/problems/course-schedule-iii/](https://leetcode.com/problems/course-schedule-iii/) 
 

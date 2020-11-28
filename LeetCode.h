@@ -149,5 +149,6 @@ int trap(std::vector<int>& height);
 int maxChunksToSortedII(std::vector<int>& arr);
 int lengthOfLongestSubstringKDistinct(std::string s, int k);
 int subarraysWithKDistinct(std::vector<int>& A, int K);
+std::string minWindow(std::string s, std::string t);
 
 #endif 
