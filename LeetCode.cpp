@@ -56,6 +56,11 @@ public:
     DoubleLinkedNode(DoubleLinkedNode* next, DoubleLinkedNode* prev, int key, int val): next(next), prev(prev), key(key), val(val) {}
 };
 
+// 261M Graph Valid Tree
+bool validTree(int n, vector<vector<int>>& edges) {
+    return true;
+}
+
 // 76H Minimum Window Substring
 string minWindow(string s, string t) {
     unordered_map<char,int> reqCharCount;

@@ -142,6 +142,7 @@ int longestOnes(std::vector<int>& A, int K);
 int minSubArrayLen(int s, std::vector<int>& nums);
 int removeDuplicates(std::vector<int>& nums);
 int findMinArrowShots(std::vector<std::vector<int>>& points);
+bool validTree(int n, std::vector<std::vector<int>>& edges);
 
 // Hard
 int maximalRectangle(std::vector<std::vector<char>>& matrix);
